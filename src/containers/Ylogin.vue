@@ -47,6 +47,9 @@
 </template>
 
 <script>
+// 引入cookie
+import common from '../lib/common.js'
+var cookie=common.Cookie;
 import yadvertising from "../components/Yadvertising.vue";
 import $ from "jquery";
 export default {
@@ -57,7 +60,8 @@ export default {
       txtbool: false,
       pawbool: false,
       changeUrl: "https://m.yohobuy.com/passport/img-check.jpg?t=1",
-      show: false
+      show: false,
+      use:[],
     };
   },
   components: {
@@ -80,7 +84,6 @@ export default {
     },
     //验证用户名跟密码是否正确
     toggeLogin() {
-      console.log(666);
       let _this = this;
       let reg = /^1(3|4|5|7|8)\d{9}$/;
       if ((_this.txt === "") & (_this.paw === "")) {
@@ -97,10 +100,12 @@ export default {
                 password: _this.paw
               },
               success(data) {
-                console.log(data);
                 if (data == "yes") {
-                  // _this.url='\/';
-                  _this.$router.push("/");
+                  // console.log(_this.txt);
+                  // console.log(_this.paw)
+                  _this.use.push({username:_this.txt})
+                 cookie.set('use',JSON.stringify(_this.use),7)
+                 _this.$router.push('/Yboys')
                 } else {
                   alert("密码或手机输入不正确");
                 }

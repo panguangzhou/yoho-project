@@ -6,7 +6,7 @@
         <span>你可能喜欢</span>
     </p>
     <div id="goods-list" class="goods-list clearfix">     
-    <div class="good-info" v-for="(p,index) in arrs" :key="index">
+    <div class="good-info" v-for="(p,index) in arrs" :key="index" @click="goxiangqingye(p.imgUrl,p.ids,p.price,p.title,p.nums,p.hot)">
         <div class="tag-container clearfix">
         </div>
         <div class="good-detail-img">
@@ -53,6 +53,25 @@ export default {
           _this.arrs = data;
         }
       });
+    },
+    //跳转到商品详情页
+    goxiangqingye(img,ids,price,title,nums,hot){
+      this.$router.push({
+        path:'/Yxianqingye',
+        query:{
+          img,
+          ids,
+          price,
+          title,
+          nums,
+          hot
+        }
+        }
+        )
+    },
+    // 找相似
+    getxiangshi(){
+
     }
   },
   mounted() {

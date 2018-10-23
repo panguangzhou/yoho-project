@@ -13,6 +13,8 @@ import yguan from './containers/Yguan.vue'
 import ybuyCar from './containers/YbuyCar.vue'
 import yme from './containers/Yme.vue'
 import ysearch from './components/Ysearch.vue'
+import yxianqingye from './containers/Yxianqingye.vue'
+import yjiesuan from './containers/Yjiesuan.vue'
 const routes = [
   {
     path:'/',
@@ -55,6 +57,13 @@ const routes = [
 {
   path:'/Ysearch',
   component:ysearch
+},
+{
+  path:'/Yxianqingye',
+  component:yxianqingye
+},{
+  path:'/Yjiesuan',
+  component:yjiesuan
 }
 ]
 const router = new VueRouter({
