@@ -1,0 +1,11 @@
+module.exports={
+	devServer:{
+		proxy:{
+			'/':{
+				target:'http://localhost:9995',
+				ws:true,
+				changeOrigin:true
+			}
+		}
+	}
+}
