@@ -26,7 +26,7 @@
                     <span class="sale-price" v-text="p.price"></span>
                     <span class="market-price" v-text="p.daze"></span>
             </div>
-            <a class="similar-btn iconfont"></a>
+            <a class="similar-btn iconfont"></a>
         </div>
     </div>
     </div>
