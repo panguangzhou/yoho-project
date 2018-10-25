@@ -2,10 +2,10 @@
     <div>
         <advertising></advertising>
         <!-- 购物车头部 -->
-        <header id="yoho-header" class="yoho-header boys">
+      <header id="yoho-header" class="yoho-header boys">
     <a href="javascript:;" class="iconfont nav-back icon-fanhui"></a>
     <p class="nav-title">购物车</p>
-    <span class="nav-btn">编辑</span>
+    <span class="nav-btn" v-show="bianjizhuangtai">编辑</span>
 </header>
     <!-- 购物车内容 -->
     <div class="shopping-cart-page yoho-page ">
@@ -15,13 +15,112 @@
         <a class="btn btn-login" @click="login">登录</a>
         可以同步电脑和手机中的商品
     </p>
-    <div class="cart-box">
+    <!-- 购物车为空时 -->
+  <div class="cart-box" v-if="gaungguang">
         <div class="cart-zero">
     <i class="iconfont icon-buy-car"></i>
     <p>您的购物车暂无商品</p>
     <a @click="guan">随便逛逛</a>
 </div>
 </div>
+  <!-- 购物车不为空时 -->
+  <div class="buycart">
+    <div class="nav-item active" id="common-cart-nav" data-type="ordinary">
+            <span>普通商品({{goodsNumber}})</span>
+        </div>
+        <div class="cart-content normal-good active">
+                <a class="tips clearfix">
+                    <div>
+                        购物满¥299.00 已免运费
+                    </div>
+                    <span class="iconfont free-shipping icon-xiangyou"></span>
+                </a>
+            <div class="normal-box" v-for="(p,index) in goodslist" :key="index" @click='p.select!=p.select'>
+                <div class="cart-brand box good-pools-data">
+                        <div class="good-list">
+                                <div class="good-item is-checked" data-promotion="" data-id="1589098" data-skn="51358054" data-mnum="1"  data-activityid="" data-poolbatchno="">
+                                    <div class="opt">
+                                            <i class="iconfont chk select checked icon-dagou" :class="{'green':p.select}" @click="p.select=!p.select"></i>
+                                        <i class="iconfont chk edit"></i>
+                                    </div>
+                                    <div class="good-new-info">
+                                        <a href="javascript:;" class="img-a">
+                                            <div class="img">
+                                                <img class="thumb lazy" :src="p.img">
+                                            </div>
+                                        </a>
+                                        <div class="info">
+                                            <div class="fixed-height">
+                                                <div class="intro intro-edit">
+                                                    <div class="edit-box">
+                                                            <div class="num-opt">
+                                                                <a href="javascript:;" class="btn btn-opt-minus disabled"><span @click="p.numbers>1?p.numbers--:1">-</span></a>
+                                                                <input type="text" class="good-num" disabled="true" data-min="1" data-max="5" v-model="p.numbers">
+                                                                <a href="javascript:;" class="btn btn-opt-plus"><span @click="p.numbers++">+</span></a>
+                                                            </div>
+                                                        <div class="edit-size-info  edit-size-info-notop ">
+                                                            <div class="txt">颜色:{{p.color}}尺码:{{p.chicun}}</div>
+                                                            <div class="down">
+                                                                <i class="iconfont icon-xiafanye"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="count iconfont icon-guanbianniu" @click="deleteOne(index)"></div>
+                                            </div>
+                                            <div class="bottom">
+                                                <div class="price">
+                                                    <span class="market-price">¥{{p.price}}</span>
+                                                </div>
+                                                <div class="tags">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+            </div>
+            <div class="all-gift-box box">
+                <div class="gift-item advanceBuy">
+                    <div class="flag">
+                        <i class="iconfont price-gift icon-dk"></i>
+                    </div>
+                    <div class="content">
+                        <div class="info ">全场加价购</div>
+                        <div class="opt to-gift ">
+                            <a href="javascript:;">去换购</a><i class="iconfont to-arrow"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="total box">
+                <div class="price-compute">
+                    <p>总计¥{{getTotal.getPrice}}=商品金额¥{{getTotal.getPrice}}</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="check-all">
+                    <i class="iconfont chk select checked icon-dagou" @click="selectProduct(isSelectAll)" :class="{'green':isSelectAll}"></i>
+                    <p>全选</p>
+                </div>
+                <div class="delete-all">
+                  <p @click="deleteAll">全部删除</p>
+                </div>
+                <div class="opts edit">
+                    <button class="btn btn-gray btn-fav">移入<br>收藏夹</button>
+                    <button class="btn btn-red btn-del">删除</button>
+                </div>
+                <div class="opts bill ">
+                    <div class="total">
+                        <p class="price">总计:¥{{getTotal.getPrice}}&nbsp;&nbsp;({{getTotal.getNums}}件)</p>
+                        <p class="intro">不含运费</p>
+                    </div>
+                    <button class="btn btn-red btn-balance">结算</button>
+                </div>
+            </div>
+    </div>
+  </div>
     <div class="recommend-for-you box hide" style="display: block;">    <div id="goods-container" class="goods-container">
         <p class="title">
             <span>为你优选新品</span>
@@ -54,27 +153,84 @@
     </div>
     </div>  
     </div>
-    <button @click="loginStates">点击查看登录状态</button>  
     </div>  
 </template>
 
 <script>
-import common from '../lib/common.js'
-var cookie=common.Cookie;
+import common from "../lib/common.js";
+var cookie = common.Cookie;
 import advertising from "../components/Yadvertising.vue";
 import $ from "jquery";
 export default {
   data() {
     return {
       arrs: [],
-    //   是否是登录的状态
-    loginState:false,
+      //   是否是登录的状态
+      loginState: false,
+      bianjizhuangtai:false,
+      //购物车里的数据
+      goodslist:[],
+      //购物车状态
+      carStatu:true,
+      gaungguang:true,
+      goodsNumber:''
     };
   },
   components: {
     advertising
   },
+  computed:{
+    isSelectAll(){
+      if(this.goodslist.length===0){
+        return false
+      }
+      return this.goodslist.every(function(val){
+        return val.select;
+      })
+    },
+    //计算选中商品的总价价格和数量
+    getTotal(){
+      let _goods = this.goodslist.filter(function(val){return val.select});
+      let prices=0;
+      let nums=0;
+      for(let i=0;i<_goods.length;i++){
+        prices+=_goods[i].price*_goods[i].numbers;
+        nums+=_goods[i].numbers;
+    }
+    return {getPrice:prices,getNums:nums}
+    }
+  },
   methods: {
+    //点击全选
+    selectProduct(isSelectAll){
+      for(let i=0;i<this.goodslist.length;i++){
+        this.goodslist[i].select=!isSelectAll
+      }
+    },
+    //删除全部
+    deleteAll(){
+      this.goodslist=this.goodslist.filter(function(val){return !val.select})
+    },
+    //删除单个
+    deleteOne(index){
+      if(this.goodslist[index].select===true){
+              this.goodslist.splice(index,1);
+              let arr = localStorage.valueOf();
+               let nums = localStorage.getItem('spanNums');
+              let keys = Object.keys(arr);
+              keys=keys.slice(0,nums);
+              localStorage.removeItem(keys[index])
+               let len = JSON.parse(localStorage.getItem("spanNums"));
+               console.log(typeof len)
+               len--;
+               localStorage.setItem("spanNums", JSON.stringify(len));
+               if(len<1){
+                 localStorage.removeItem('spanNums')
+                 console.log(len)
+               }
+               
+      }
+    },
     toggle() {
       let _this = this;
       $.ajax({
@@ -94,24 +250,47 @@ export default {
     guan() {
       this.$router.push("/Yguan");
     },
+    // 判断本地缓存有没有存储数据
+    examine() {
+      let arr = localStorage.valueOf();
+      let nums = localStorage.getItem('spanNums');
+      this.goodsNumber=nums;
+      if(nums>0){
+        this.bianjizhuangtai=true;
+        this.carStatu=true;
+        this.gaungguang=false;
+      }
+      let keys = Object.keys(arr);
+      keys=keys.slice(0,nums);
+      this.goodslist=keys.map(function(item){
+          return JSON.parse(localStorage.getItem(item));
+      })
+      console.log(this.goodslist)
+    },
     //判断是否是登录状态
-    loginStates(){
-        let len = cookie.get('use');
-        if(len.length==0){
-            this.loginState=true
-        }else{
-            this.loginState=false
-        }
+    loginStates() {
+      let len = cookie.get("use");
+      if (len.length == 0) {
+        this.loginState = true;
+      } else {
+        this.loginState = false;
+      }
     }
   },
   mounted() {
     this.toggle();
     this.loginStates();
+    this.examine();
+    //给购物车加一个初始属性
+    let _this = this;
+    _this.goodslist.map(function(item){
+      _this.$set(item, 'select', true)
+    })
   }
 };
 </script>
 
-<style scoped>
+<style>
 /* 购物车头部 */
 .yoho-header,
 .yoho-header.boys {
@@ -192,11 +371,7 @@ export default {
   right: 0.25rem;
 }
 /*购物车内容*/
-.shopping-cart-page {
-  margin-bottom: 3rem;
-  overflow-x: hidden;
-}
-.shopping-cart-page .login-info {
+ .login-info {
   box-sizing: content-box;
   color: #24acaa;
   font-size: 0.825rem;
@@ -204,10 +379,10 @@ export default {
   padding: 0.5rem 0.575rem;
   text-align: center;
 }
-.shopping-cart-page .login-info .iconfont {
+ .login-info .iconfont {
   font-size: 0.825rem;
 }
-.shopping-cart-page .login-info .btn {
+ .login-info .btn {
   background: #ed0010;
   color: #fff;
   display: inline-block;
@@ -260,7 +435,7 @@ export default {
   font-size: 0.35rem;
   padding: 0.875rem 0;
 }
-.shopping-cart-page .box {
+ .box {
   background-color: #fff;
   margin-top: 0.5rem;
 }
@@ -458,5 +633,465 @@ export default {
   right: 0;
   text-align: center;
   width: 1.25rem;
+}
+/* 购物车不为空时的页面 */
+.buycart{
+  width:100%;
+}
+.buycart .nav-item.active {
+    color: #000;
+}
+.buycart .nav-item {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    box-sizing: content-box;
+    flex: 1;
+    height: .875rem;
+    padding: .875rem 0;
+    position: relative;
+}
+.buycart .nav-item:first-child span {
+    border: none;
+}
+.buycart .nav-item span {
+    border-left: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    font-size: 1rem;
+    height: .875rem;
+    line-height: .875rem;
+    text-align: center;
+    width: 100%;
+    display:block;
+}
+.buycart .cart-content.active {
+    display: block;
+}
+.buycart .cart-content {
+    display: none;
+    margin-top: .5rem;
+}
+.buycart .cart-content .tips {
+    background: #ff7f81;
+    color: #fff;
+    display: block;
+    font-size: .625rem;
+    line-height: 1rem;
+    margin-top: -.5rem;
+    min-height: 1.75rem;
+    padding: .375rem .75rem;
+}
+.buycart .cart-content .tips div {
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 14.25rem;
+}
+.buycart .cart-content .tips .free-shipping {
+    color: #fff;
+    float: left;
+    font-size: .625rem;
+    text-align: right;
+    width: 3rem;
+}
+.buycart.box.cart-brand:first-child {
+    margin-top: 0;
+}
+.buycart .box {
+    background-color: #fff;
+    margin-top: .5rem;
+}
+.good-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    min-height: 6.15rem;
+    width: 100%;
+}
+.good-item .opt {
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    width: 2.5rem;
+}
+.good-item .opt .select {
+    display: block;
+}
+.iconfont.chk {
+    font-size: 1rem;
+}
+.iconfont.chk {
+    font-size: 1rem;
+}
+.good-item .good-new-info {
+    padding-left: 0;
+}
+.good-new-info, .good-new-info .img-a {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.good-new-info {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    border-bottom: 1px solid #f0f0f0;
+    flex: 1;
+    padding: .5rem .75rem;
+    width: 100%;
+}
+.good-new-info .img-a {
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.good-new-info, .good-new-info .img-a {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.good-new-info .img {
+    position: relative;
+}
+.good-new-info .img .thumb {
+    min-height: 5.1rem;
+    width: 3.8rem;
+}
+.good-new-info .info {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    margin-left: .8rem;
+    padding-top: .5rem;
+    position: relative;
+}
+.good-new-info .info .fixed-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    min-height: 2.5rem;
+    width: 100%;
+}
+.good-new-info .info .fixed-height .intro {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    width: 100%;
+}
+.good-new-info .info .name-row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.good-new-info .info .name-row .name {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    color: #5a5a5a;
+    flex: 1;
+    font-size: .6rem;
+}
+.good-new-info .info .color-size-row {
+    color: #b6b6b6;
+    font-size: .7rem;
+    margin-top: .1rem;
+}
+.good-new-info .info .color-size-row span {
+    margin-right: .45rem;
+}
+.good-new-info .info .fixed-height .intro {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    width: 100%;
+}
+.good-new-info .edit-box {
+    margin-bottom: .275rem;
+    width:10rem;
+}
+.good-new-info .num-opt {
+    border: 1px solid #dfdfdf;
+    border-radius: .125rem .125rem 0 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    height: 1.85rem;
+    overflow: hidden;
+}
+.good-new-info .num-opt .btn.btn-opt-minus {
+    border-right: 1px solid #dfdfdf;
+}
+.good-new-info .num-opt .btn {
+    display: block;
+    height: 100%;
+    line-height: 1.85rem;
+    text-align: center;
+    width: 3rem;
+}
+.good-new-info .num-opt .btn.disabled .iconfont {
+    color: #b0b0b0;
+}
+.good-new-info .num-opt .good-num:disabled {
+    color: initial;
+}
+.good-new-info .num-opt .good-num {
+    background-color: #fff;
+    border: none;
+    color: #444;
+    font-size: .8rem;
+    height: 1.85rem;
+    line-height: 1.85rem;
+    text-align: center;
+    width: 6rem;
+}
+.good-new-info .num-opt .btn.btn-opt-plus {
+    border-left: 1px solid #dfdfdf;
+}
+.good-new-info .num-opt .btn {
+    display: block;
+    height: 100%;
+    line-height: 1.85rem;
+    text-align: center;
+    width: 2rem;
+}
+.good-new-info .num-opt .btn .iconfont {
+    color: #444;
+}
+.good-new-info .edit-box .edit-size-info-notop {
+    border-radius: 0 0 .125rem .125rem;
+    border-top: none;
+}
+.good-new-info .edit-box .edit-size-info {
+    border: 1px solid #dfdfdf;
+    border-radius: .125rem;
+    color: #444;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    height: 1.85rem;
+    line-height: 1.85rem;
+    padding-left: .35rem;
+    width: 100%;
+}
+.good-new-info .edit-box .edit-size-info .txt {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    font-size: .575rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.good-new-info .edit-box .edit-size-info .down {
+    text-align: center;
+    width: 1.375rem;
+}
+.good-new-info .edit-box .edit-size-info .down .iconfont {
+    font-size: .75rem;
+}
+.good-new-info .info .count {
+    color: #999;
+    font-size: 1rem;
+    text-align: right;
+    width: 1.125rem;
+    align-items: center;
+    justify-content: center;
+}
+.good-new-info .info .price {
+    color: #d0253b;
+    font-size: .7rem;
+}
+.good-new-info .info .tags {
+    line-height: .75rem;
+    text-align: right;
+    width: 100%;
+}
+ .box {
+    background-color: #fff;
+    margin-top: .5rem;
+}
+.all-gift-box .gift-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    width: 100%;
+}
+.all-gift-box .gift-item .flag {
+    color: #444;
+    line-height: 2rem;
+    padding-right: .45rem;
+    text-align: right;
+    width: 2rem;
+}
+.all-gift-box .gift-item .flag .iconfont {
+    font-size: .8rem;
+    vertical-align: middle;
+}
+.all-gift-box .gift-item:last-child .content {
+    border: none;
+}
+.all-gift-box .gift-item .content, .all-gift-box .gift-item .content .info {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+.all-gift-box .gift-item .content {
+    border-bottom: 1px solid #f1f1f1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    padding-right: .75rem;
+    width: 100%;
+}
+.all-gift-box .gift-item .content, .all-gift-box .gift-item .content .info {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+.all-gift-box .gift-item .content .opt {
+    text-align: right;
+    width: 3.475rem;
+}
+.to-gift a {
+    color: #ff575c;
+    font-size: .575rem;
+}
+.iconfont.to-arrow {
+    color: #e0e0e0;
+    margin-left: .275rem;
+}
+.shopping-cart-page .box {
+    background-color: #fff;
+    margin-top: .5rem;
+}
+.price-compute {
+    background-color: #fff;
+    border-top: 1px solid #e0e0e0;
+    font-size: .7rem;
+    margin-bottom: .5rem;
+    padding: .5rem;
+}
+.cart-footer {
+    background-color: #fff;
+    bottom: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    height: 3rem;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+.cart-footer .check-all {
+    padding-top: .5rem;
+    text-align: center;
+    width: 2.25rem;
+}
+.cart-footer .check-all .select {
+    display: block;
+}
+.iconfont.chk {
+    font-size: 1rem;
+}
+.cart-footer .check-all .edit {
+    display: none;
+}
+.iconfont.chk {
+    font-size: 1rem;
+}
+.cart-footer .opts.edit {
+    display: none;
+}
+.cart-footer .opts {
+    -webkit-box-flex: 1;
+    -webkit-box-pack: end;
+    -webkit-flex: 1;
+    -webkit-justify-content: flex-end;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    padding: .45rem;
+    text-align: right;
+}
+.cart-footer .opts .btn.btn-gray {
+    background-color: #444;
+}
+.cart-footer .opts .btn {
+    border-radius: .125rem;
+    color: #fff;
+    display: block;
+    height: 2.2rem;
+    margin-left: .35rem;
+    margin-right: .35rem;
+    width: 4.25rem;
+}
+.cart-footer .opts .btn.btn-red {
+    background-color: #d1021c;
+}
+.cart-footer .opts .btn {
+    border-radius: .125rem;
+    color: #fff;
+    display: block;
+    height: 2.2rem;
+    margin-left: .35rem;
+    margin-right: .35rem;
+    width: 4.25rem;
+}
+.cart-footer .opts.bill {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+.cart-footer .opts {
+    -webkit-box-flex: 1;
+    -webkit-box-pack: end;
+    -webkit-flex: 1;
+    -webkit-justify-content: flex-end;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    padding: .45rem;
+    text-align: right;
+}
+.cart-footer .opts .total {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    padding-top: .275rem;
+}
+.cart-footer .opts .btn.btn-red {
+    background-color: #d1021c;
+}
+.cart-footer .opts .btn {
+    border-radius: .125rem;
+    color: #fff;
+    display: block;
+    height: 2.2rem;
+    margin-left: .35rem;
+    margin-right: .35rem;
+    width: 4.25rem;
+}
+.cart-footer .opts .total .price {
+    color: #d0253b;
+    font-size: .8rem;
+}
+.cart-footer .opts .total .intro {
+    color: #b6b6b6;
+    font-size: .575rem;
+}
+/*原谅的颜色*/
+.green{
+  color:#58bc58;
 }
 </style>

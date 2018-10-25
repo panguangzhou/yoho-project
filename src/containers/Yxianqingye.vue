@@ -114,7 +114,7 @@
                     </div>
                     <a class="comment-content-footer tap-hightlight" href="//m.yohobuy.com/product/detail/comments?product_id=1077039" rel="nofollow">
                         查看更多
-                        <span class="iconfont"></span>
+                        <span class="iconfont"></span>
                     </a>
             </div>
         
@@ -141,22 +141,22 @@
                             </div>
         
                             <div class="answer">
-                                <span class="iconfont"></span>
+                                <span class="iconfont"></span>
                                 <p>向您推荐S号供参考,由于版型和个人穿衣风格不同，建议您参照此款商品“尺码信息”。</p>
                             </div>
                     </div>
                     <a class="consult-content-footer tap-hightlight" href="//m.yohobuy.com/product/detail/consults?product_id=1077039&amp;total=25" rel="nofollow">
                         查看更多
-                        <span class="iconfont"></span>
+                        <span class="iconfont"></span>
                     </a>
             </div>
         </div>
         </div>
        <!--加入购物车 -->
        <div class="cart-bar">
-    <a class="new-foot-ico" rel="nofollow">
+    <a class="new-foot-ico" rel="nofollow" @click="gobuyCar">
         <div class="num-incart iconfont icon-buy-car">
-            <span class="num-tag hide"></span>
+            <span :class="[spanbool?'num-tag':'']" v-text="spanNum"></span>
         </div>
         <div class="tip">购物车</div>
     </a>
@@ -229,7 +229,6 @@
 </div>
     </div>  
 </template>
-
 <script>
 import common from "../lib/common.js";
 var cookie = common.Cookie;
@@ -240,6 +239,7 @@ export default {
       page: "",
       // 右侧菜单栏
       bool: false,
+      // 商品详情
       img: "",
       ids: "",
       prices: 0,
@@ -256,7 +256,9 @@ export default {
       sizearr: ["M", "L", "XL", "XXL"],
       sizebool: false,
       color: "黑色",
-      chicun: ""
+      chicun: "",
+      spanbool: false,
+      spanNum: 0
     };
   },
   methods: {
@@ -279,6 +281,38 @@ export default {
     getsize(index, p) {
       this.chicun = p;
       this.page = index;
+    },
+    gobuyCar() {
+      this.$router.push("/YbuyCar");
+    },
+    // 计算购物车里面的商品数量
+    goSpanNum() {
+      let len = JSON.parse(localStorage.getItem("spanNums"));
+      if (len == null) {
+        this.spanNum++;
+        localStorage.setItem("spanNums", JSON.stringify(this.spanNum));
+        let lenS = JSON.parse(localStorage.getItem("spanNums"));
+        this.spanNum=lenS;
+      } else {
+        this.spanNum++;
+        localStorage.setItem("spanNums", JSON.stringify(this.spanNum));
+        let lenS = JSON.parse(localStorage.getItem("spanNums"));
+        this.spanNum=lenS; 
+      }
+    },
+    //检查购物车的状态
+    checkStatu(){
+      let len = JSON.parse(localStorage.getItem("spanNums"));
+      if(len==null){
+        this.spanbool=false;
+      }
+    },
+    getnums(){
+      let lennum = JSON.parse(localStorage.getItem("spanNums"));
+      this.spanNum=lennum;
+        if(this.spanNum!==0){
+        this.spanbool=true;
+      }
     },
     // 立即购买
     lijigoumai() {
@@ -319,27 +353,33 @@ export default {
             title: this.title,
             ids: this.ids
           };
-          //   判断商品的ID是否相同，相同的商品ID数量相加，不同的直接添加到数据库
-          var str = JSON.parse(sessionStorage.getItem(serial));
-            var bool = JSON.parse(sessionStorage.getItem(serial+obj.chicun))
-            if (str == null&&bool==null) {
-              sessionStorage.setItem(serial, JSON.stringify(obj));
-            } else {
-              let strChiCun = str.chicun;
-              if (obj.chicun !== strChiCun) {
-                //   如果尺寸不同，添加商品
-                  var i = 0;
-                //   数据替代，第三方存储，防止覆盖
-                  if(bool !== null){
-                      i = bool.numbers;
-                  } 
-                obj.numbers = i + obj.numbers;
-                sessionStorage.setItem(serial+obj.chicun, JSON.stringify(obj));
-              } else {
-                obj.numbers = str.numbers + obj.numbers;
-                sessionStorage.setItem(serial, JSON.stringify(obj));
+          // 判断商品的ID是否相同，相同的商品ID数量相加，不同的直接添加到数据库
+          var str = JSON.parse(localStorage.getItem(serial));
+          var bool = JSON.parse(localStorage.getItem(serial + obj.chicun));
+          if (str == null && bool == null) {
+            localStorage.setItem(serial, JSON.stringify(obj));
+            this.goSpanNum();
+          } else {
+            let strChiCun = str.chicun;
+            if (obj.chicun !== strChiCun) {
+              //   如果尺寸不同，添加商品
+              var i = 0;
+              //   数据替代，第三方存储，防止覆盖
+              if (bool !== null) {
+                i = bool.numbers;
+              }else{
+                this.goSpanNum();
               }
+              obj.numbers = i + obj.numbers;
+              localStorage.setItem(serial + obj.chicun, JSON.stringify(obj));
+            } else {
+              obj.numbers = str.numbers + obj.numbers;
+              localStorage.setItem(serial, JSON.stringify(obj));
             }
+          }
+
+          this.state = false;
+          this.getnums();
         }
       }
     }
@@ -354,6 +394,8 @@ export default {
       (this.title = this.$route.query.title),
       (this.nums = this.$route.query.nums),
       (this.hot = this.$route.query.hot);
+      this.getnums();
+      this.checkStatu();
   }
 };
 </script>
@@ -422,6 +464,7 @@ export default {
   top: 0;
   white-space: nowrap;
 }
+/* 隐藏或显示的状态 */
 .hide {
   display: none;
 }
@@ -848,6 +891,23 @@ export default {
   text-align: center;
   width: 40%;
   overflow: hidden;
+}
+.cart-bar .num-incart {
+  position: relative;
+}
+.cart-bar .num-incart .num-tag {
+  background: #eb0313;
+  border-radius: 50%;
+  color: #fff;
+  display: block;
+  font-size: 1rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  position: absolute;
+  right: 0.125rem;
+  text-align: center;
+  top: -0.25rem;
+  width: 1.25rem;
 }
 .cart-bar a {
   display: inline-block;
