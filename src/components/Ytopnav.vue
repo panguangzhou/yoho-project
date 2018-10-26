@@ -46,34 +46,18 @@
         </div>
     </div>
 </div>
-     <footer id="yoho-footer" class="yoho-footer" style="display: block;">
-
-    <p class="op-row">
-        <span @click="goLogin">登录</span>
-        <span class="sep-line">|</span>
-        <span @click="goReg">注册</span>
-        <span class="back-to-top">
-            <!-- 效果不好 -->
-          <a href="#goTops">
-            回到顶部
-            <i class="iconfont icon-huidingbu"></i>
-          </a>
-        </span>
-        </p><div class="float-top "></div>
-    <p></p>
-    <address class="copyright">
-        CopyRight©2007-2018 南京新与力文化传播有限公司
-    </address>
-</footer>
     </div>
+    <ybottomTop></ybottomTop>
   </div>
 </template>
 
 <script>
 import yadvertising from "./Yadvertising.vue";
+import ybottomTop from './YbottomTop.vue'
 export default {
   components:{
-    yadvertising
+    yadvertising,
+    ybottomTop
   },
     data(){
       return {

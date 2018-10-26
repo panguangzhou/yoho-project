@@ -1,39 +1,25 @@
 let express = require('express');
 let mongodb = require('mongodb');
+let bodyParser = require('body-parser')
 let app = express();
+// let base = require('../lib/base64.js')
 let MongoClient = require('mongodb').MongoClient;
 let DB_CONN_STR = 'mongodb://localhost:27017';
-//图片验证
-// app.get('/yanzheng',function(req,res){
-//     //解决跨域问题，这样做不安全
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     res.header('Access-Control-Allow-Headers', 'Content-Type');
-//     //打印请求头的信息
-//     let num = req.query.num
-//     console.log(num)
-//     MongoClient.connect(DB_CONN_STR, function (err, db) {
-//         console.log('连接成功');
-//         let dbo = db.db('yoho');
-//         dbo.collection('yanzheng').find({naem:`https://m.yohobuy.com/passport/img-check.jpg?t=${num}`}).toArray(function (err, request) {
-//             if (err) {
-//                 console.log(err)
-//             }
-//             console.log(request);
-//             res.send('hello world');
-//             db.close();
-//         })
-//     })
-// })
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+// var code = base.hex_sha1;
+// console.log(code)
+// console.log(base)
 //用户名查询是否正确
-app.get('/login', function (req, res) {
+app.post('/login', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    var username = req.query.username;
-    var password = req.query.password;
+    var username = req.body.username;
+    // var password = code(req.body.password)
+    var password = req.body.password;
     //检测数据库有没有相同的用户名
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         let dbo = db.db('yoho');
@@ -52,14 +38,14 @@ app.get('/login', function (req, res) {
     })
 })
 //注册用户名
-app.get('/reg', function (req, res) {
+app.post('/reg', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
+    var username = req.body.username;
+    var password = req.body.password;
     MongoClient.connect(DB_CONN_STR, function (err, db) {
-        var username = req.query.username;
-        var password = req.query.password;
         let arr = [{ username, password }];
         var dbo = db.db('yoho');
         dbo.collection('admin').find({ username }).toArray(function (err, request) {
@@ -127,7 +113,6 @@ app.get('/search', function (req, res) {
     let str = req.query.searchName;
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         let dbo = db.db('yoho');
-        console.log(str.length)
         if (str.length !== 0) {
             let reg = new RegExp(req.query.searchName, 'i');
             dbo.collection('search').find({ name: { $regex: reg } }).toArray(function (err, request) {
@@ -135,7 +120,6 @@ app.get('/search', function (req, res) {
                     console.log(err)
                 }
                 res.send(request)
-                console.log(request)
                 db.close();
             })
         }
@@ -173,7 +157,6 @@ app.get('/goodshow',function(req,res){
             if (err) {
                 console.log(err)
             }
-            console.log(request)
             res.send(request)
             db.close();
 

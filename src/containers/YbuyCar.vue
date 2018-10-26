@@ -3,7 +3,7 @@
         <advertising></advertising>
         <!-- 购物车头部 -->
       <header id="yoho-header" class="yoho-header boys">
-    <a href="javascript:;" class="iconfont nav-back icon-fanhui"></a>
+    <a class="iconfont nav-back icon-fanhui" href="javascript:history.go(-1)"></a>
     <p class="nav-title">购物车</p>
     <span class="nav-btn" v-show="bianjizhuangtai">编辑</span>
 </header>
@@ -24,7 +24,7 @@
 </div>
 </div>
   <!-- 购物车不为空时 -->
-  <div class="buycart">
+  <div class="buycart" v-if="carStatu">
     <div class="nav-item active" id="common-cart-nav" data-type="ordinary">
             <span>普通商品({{goodsNumber}})</span>
         </div>
@@ -39,7 +39,7 @@
                 <div class="cart-brand box good-pools-data">
                         <div class="good-list">
                                 <div class="good-item is-checked" data-promotion="" data-id="1589098" data-skn="51358054" data-mnum="1"  data-activityid="" data-poolbatchno="">
-                                    <div class="opt">
+                                    <div class="opt" @click="p.select?getDeleteNum(index):removeDeleteNum(index)">
                                             <i class="iconfont chk select checked icon-dagou" :class="{'green':p.select}" @click="p.select=!p.select"></i>
                                         <i class="iconfont chk edit"></i>
                                     </div>
@@ -167,68 +167,117 @@ export default {
       arrs: [],
       //   是否是登录的状态
       loginState: false,
-      bianjizhuangtai:false,
+      bianjizhuangtai: false,
       //购物车里的数据
-      goodslist:[],
+      goodslist: [],
       //购物车状态
-      carStatu:true,
-      gaungguang:true,
-      goodsNumber:''
+      carStatu: true,
+      gaungguang: true,
+      goodsNumber: "",
+      //存储购物车多选删除的数据
+      deleteNums: [],
+      //全选状态
+      quanxuan: false,
+      //遍历每个状态的
+      checkshowArr: []
     };
   },
   components: {
     advertising
   },
-  computed:{
-    isSelectAll(){
-      if(this.goodslist.length===0){
-        return false
+  computed: {
+    isSelectAll() {
+      if (this.goodslist.length === 0) {
+        return false;
       }
-      return this.goodslist.every(function(val){
+      return this.goodslist.every(function(val) {
         return val.select;
-      })
+      });
     },
     //计算选中商品的总价价格和数量
-    getTotal(){
-      let _goods = this.goodslist.filter(function(val){return val.select});
-      let prices=0;
-      let nums=0;
-      for(let i=0;i<_goods.length;i++){
-        prices+=_goods[i].price*_goods[i].numbers;
-        nums+=_goods[i].numbers;
-    }
-    return {getPrice:prices,getNums:nums}
+    getTotal() {
+      let _goods = this.goodslist.filter(function(val) {
+        return val.select;
+      });
+      let prices = 0;
+      let nums = 0;
+      for (let i = 0; i < _goods.length; i++) {
+        prices += _goods[i].price * _goods[i].numbers;
+        nums += _goods[i].numbers;
+      }
+      return { getPrice: prices, getNums: nums };
     }
   },
   methods: {
-    //点击全选
-    selectProduct(isSelectAll){
-      for(let i=0;i<this.goodslist.length;i++){
-        this.goodslist[i].select=!isSelectAll
+    //单击遍历每个选项的勾选状态
+    checkshow() {
+      for (let i = 0; i < this.goodslist.length; i++) {
+        if (this.goodslist[i].select === true) {
+          this.checkshowArr.push[i];
+        }
       }
     },
+    //单击，根据状态删除
+    getDeleteNum(index) {
+      this.deleteNums.push(index);
+    },
+    removeDeleteNum(index) {
+      this.deleteNums.splice(index, 1);
+    },
+    //点击全选
+    selectProduct(isSelectAll) {
+      for (let i = 0; i < this.goodslist.length; i++) {
+        this.goodslist[i].select = !isSelectAll;
+      }
+      this.quanxuan = !this.quanxuan;
+    },
     //删除全部
-    deleteAll(){
-      this.goodslist=this.goodslist.filter(function(val){return !val.select})
+    deleteAll() {
+      for (let i = 0; i < this.goodslist.length; i++) {
+        if (this.goodslist[i].select === true) {
+          this.checkshowArr.push(i);
+        }
+      }
+      this.goodslist = this.goodslist.filter(function(val) {
+        return !val.select;
+      });
+      let arr = localStorage.valueOf();
+      let keys = Object.keys(arr);
+      for (let s = 0; s < this.checkshowArr.length; s++) {
+        let boom = this.checkshowArr[s];
+        localStorage.removeItem(keys[boom]);
+      }
+      if (this.goodslist.length ==0) {
+        localStorage.removeItem("spanNums");
+        this.goodsNumber = 0;
+        this.carStatu = false;
+        this.gaungguang = true;
+      }
+      let nums = localStorage.getItem("spanNums");
+      nums = this.goodslist.length;
+        this.goodsNumber = this.goodslist.length;
+        localStorage.setItem("spanNums", JSON.stringify(nums));
+      this.checkshowArr = [];
     },
     //删除单个
-    deleteOne(index){
-      if(this.goodslist[index].select===true){
-              this.goodslist.splice(index,1);
-              let arr = localStorage.valueOf();
-               let nums = localStorage.getItem('spanNums');
-              let keys = Object.keys(arr);
-              keys=keys.slice(0,nums);
-              localStorage.removeItem(keys[index])
-               let len = JSON.parse(localStorage.getItem("spanNums"));
-               console.log(typeof len)
-               len--;
-               localStorage.setItem("spanNums", JSON.stringify(len));
-               if(len<1){
-                 localStorage.removeItem('spanNums')
-                 console.log(len)
-               }
-               
+    deleteOne(index) {
+      if (this.goodslist[index].select === true) {
+        this.goodslist.splice(index, 1);
+        let arr = localStorage.valueOf();
+        let nums = localStorage.getItem("spanNums");
+        let keys = Object.keys(arr);
+        keys = keys.slice(0, nums);
+        localStorage.removeItem(keys[index]);
+        let len = JSON.parse(localStorage.getItem("spanNums"));
+        len--;
+        this.goodsNumber = len;
+        localStorage.setItem("spanNums", JSON.stringify(len));
+        if (len < 1) {
+          localStorage.removeItem("spanNums");
+          this.goodsNumber = 0;
+          this.carStatu = false;
+          this.gaungguang = true;
+        }
       }
     },
     toggle() {
@@ -253,19 +302,22 @@ export default {
     // 判断本地缓存有没有存储数据
     examine() {
       let arr = localStorage.valueOf();
-      let nums = localStorage.getItem('spanNums');
-      this.goodsNumber=nums;
-      if(nums>0){
-        this.bianjizhuangtai=true;
-        this.carStatu=true;
-        this.gaungguang=false;
+      let nums = localStorage.getItem("spanNums");
+      this.goodsNumber = nums;
+      if (nums > 0) {
+        this.bianjizhuangtai = true;
+        this.carStatu = true;
+        this.gaungguang = false;
+      } else {
+        this.carStatu = false;
+        this.gaungguang = true;
+        this.bianjizhuangtai = false;
       }
       let keys = Object.keys(arr);
-      keys=keys.slice(0,nums);
-      this.goodslist=keys.map(function(item){
-          return JSON.parse(localStorage.getItem(item));
-      })
-      console.log(this.goodslist)
+      keys = keys.slice(0, nums);
+      this.goodslist = keys.map(function(item) {
+        return JSON.parse(localStorage.getItem(item));
+      });
     },
     //判断是否是登录状态
     loginStates() {
@@ -283,9 +335,9 @@ export default {
     this.examine();
     //给购物车加一个初始属性
     let _this = this;
-    _this.goodslist.map(function(item){
-      _this.$set(item, 'select', true)
-    })
+    _this.goodslist.map(function(item) {
+      _this.$set(item, "select", false);
+    });
   }
 };
 </script>
@@ -371,7 +423,7 @@ export default {
   right: 0.25rem;
 }
 /*购物车内容*/
- .login-info {
+.login-info {
   box-sizing: content-box;
   color: #24acaa;
   font-size: 0.825rem;
@@ -379,10 +431,10 @@ export default {
   padding: 0.5rem 0.575rem;
   text-align: center;
 }
- .login-info .iconfont {
+.login-info .iconfont {
   font-size: 0.825rem;
 }
- .login-info .btn {
+.login-info .btn {
   background: #ed0010;
   color: #fff;
   display: inline-block;
@@ -435,7 +487,7 @@ export default {
   font-size: 0.35rem;
   padding: 0.875rem 0;
 }
- .box {
+.box {
   background-color: #fff;
   margin-top: 0.5rem;
 }
@@ -635,463 +687,483 @@ export default {
   width: 1.25rem;
 }
 /* 购物车不为空时的页面 */
-.buycart{
-  width:100%;
+.buycart {
+  width: 100%;
 }
 .buycart .nav-item.active {
-    color: #000;
+  color: #000;
 }
 .buycart .nav-item {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    box-sizing: content-box;
-    flex: 1;
-    height: .875rem;
-    padding: .875rem 0;
-    position: relative;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  box-sizing: content-box;
+  flex: 1;
+  height: 0.875rem;
+  padding: 0.875rem 0;
+  position: relative;
 }
 .buycart .nav-item:first-child span {
-    border: none;
+  border: none;
 }
 .buycart .nav-item span {
-    border-left: 1px solid #e0e0e0;
-    box-sizing: border-box;
-    font-size: 1rem;
-    height: .875rem;
-    line-height: .875rem;
-    text-align: center;
-    width: 100%;
-    display:block;
+  border-left: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  font-size: 1rem;
+  height: 0.875rem;
+  line-height: 0.875rem;
+  text-align: center;
+  width: 100%;
+  display: block;
 }
 .buycart .cart-content.active {
-    display: block;
+  display: block;
 }
 .buycart .cart-content {
-    display: none;
-    margin-top: .5rem;
+  display: none;
+  margin-top: 0.5rem;
 }
 .buycart .cart-content .tips {
-    background: #ff7f81;
-    color: #fff;
-    display: block;
-    font-size: .625rem;
-    line-height: 1rem;
-    margin-top: -.5rem;
-    min-height: 1.75rem;
-    padding: .375rem .75rem;
+  background: #ff7f81;
+  color: #fff;
+  display: block;
+  font-size: 0.625rem;
+  line-height: 1rem;
+  margin-top: -0.5rem;
+  min-height: 1.75rem;
+  padding: 0.375rem 0.75rem;
 }
 .buycart .cart-content .tips div {
-    float: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 14.25rem;
+  float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 14.25rem;
 }
 .buycart .cart-content .tips .free-shipping {
-    color: #fff;
-    float: left;
-    font-size: .625rem;
-    text-align: right;
-    width: 3rem;
+  color: #fff;
+  float: left;
+  font-size: 0.625rem;
+  text-align: right;
+  width: 3rem;
 }
 .buycart.box.cart-brand:first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 .buycart .box {
-    background-color: #fff;
-    margin-top: .5rem;
+  background-color: #fff;
+  margin-top: 0.5rem;
 }
 .good-item {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    min-height: 6.15rem;
-    width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  min-height: 6.15rem;
+  width: 100%;
 }
 .good-item .opt {
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-    align-items: center;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    width: 2.5rem;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  width: 2.5rem;
 }
 .good-item .opt .select {
-    display: block;
+  display: block;
 }
 .iconfont.chk {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 .iconfont.chk {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 .good-item .good-new-info {
-    padding-left: 0;
+  padding-left: 0;
 }
-.good-new-info, .good-new-info .img-a {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+.good-new-info,
+.good-new-info .img-a {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
 }
 .good-new-info {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    border-bottom: 1px solid #f0f0f0;
-    flex: 1;
-    padding: .5rem .75rem;
-    width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  border-bottom: 1px solid #f0f0f0;
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
 }
 .good-new-info .img-a {
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    align-items: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  align-items: center;
 }
-.good-new-info, .good-new-info .img-a {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+.good-new-info,
+.good-new-info .img-a {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
 }
 .good-new-info .img {
-    position: relative;
+  position: relative;
 }
 .good-new-info .img .thumb {
-    min-height: 5.1rem;
-    width: 3.8rem;
+  min-height: 5.1rem;
+  width: 3.8rem;
 }
 .good-new-info .info {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
-    margin-left: .8rem;
-    padding-top: .5rem;
-    position: relative;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  margin-left: 0.8rem;
+  padding-top: 0.5rem;
+  position: relative;
 }
 .good-new-info .info .fixed-height {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    min-height: 2.5rem;
-    width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  min-height: 2.5rem;
+  width: 100%;
 }
 .good-new-info .info .fixed-height .intro {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
-    width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  width: 100%;
 }
 .good-new-info .info .name-row {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
 }
 .good-new-info .info .name-row .name {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    color: #5a5a5a;
-    flex: 1;
-    font-size: .6rem;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  color: #5a5a5a;
+  flex: 1;
+  font-size: 0.6rem;
 }
 .good-new-info .info .color-size-row {
-    color: #b6b6b6;
-    font-size: .7rem;
-    margin-top: .1rem;
+  color: #b6b6b6;
+  font-size: 0.7rem;
+  margin-top: 0.1rem;
 }
 .good-new-info .info .color-size-row span {
-    margin-right: .45rem;
+  margin-right: 0.45rem;
 }
 .good-new-info .info .fixed-height .intro {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
-    width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  width: 100%;
 }
 .good-new-info .edit-box {
-    margin-bottom: .275rem;
-    width:10rem;
+  margin-bottom: 0.275rem;
+  width: 10rem;
 }
 .good-new-info .num-opt {
-    border: 1px solid #dfdfdf;
-    border-radius: .125rem .125rem 0 0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    height: 1.85rem;
-    overflow: hidden;
+  border: 1px solid #dfdfdf;
+  border-radius: 0.125rem 0.125rem 0 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 1.85rem;
+  overflow: hidden;
 }
 .good-new-info .num-opt .btn.btn-opt-minus {
-    border-right: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
 }
 .good-new-info .num-opt .btn {
-    display: block;
-    height: 100%;
-    line-height: 1.85rem;
-    text-align: center;
-    width: 3rem;
+  display: block;
+  height: 100%;
+  line-height: 1.85rem;
+  text-align: center;
+  width: 3rem;
 }
 .good-new-info .num-opt .btn.disabled .iconfont {
-    color: #b0b0b0;
+  color: #b0b0b0;
 }
 .good-new-info .num-opt .good-num:disabled {
-    color: initial;
+  color: initial;
 }
 .good-new-info .num-opt .good-num {
-    background-color: #fff;
-    border: none;
-    color: #444;
-    font-size: .8rem;
-    height: 1.85rem;
-    line-height: 1.85rem;
-    text-align: center;
-    width: 6rem;
+  background-color: #fff;
+  border: none;
+  color: #444;
+  font-size: 0.8rem;
+  height: 1.85rem;
+  line-height: 1.85rem;
+  text-align: center;
+  width: 6rem;
 }
 .good-new-info .num-opt .btn.btn-opt-plus {
-    border-left: 1px solid #dfdfdf;
+  border-left: 1px solid #dfdfdf;
 }
 .good-new-info .num-opt .btn {
-    display: block;
-    height: 100%;
-    line-height: 1.85rem;
-    text-align: center;
-    width: 2rem;
+  display: block;
+  height: 100%;
+  line-height: 1.85rem;
+  text-align: center;
+  width: 2rem;
 }
 .good-new-info .num-opt .btn .iconfont {
-    color: #444;
+  color: #444;
 }
 .good-new-info .edit-box .edit-size-info-notop {
-    border-radius: 0 0 .125rem .125rem;
-    border-top: none;
+  border-radius: 0 0 0.125rem 0.125rem;
+  border-top: none;
 }
 .good-new-info .edit-box .edit-size-info {
-    border: 1px solid #dfdfdf;
-    border-radius: .125rem;
-    color: #444;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    height: 1.85rem;
-    line-height: 1.85rem;
-    padding-left: .35rem;
-    width: 100%;
+  border: 1px solid #dfdfdf;
+  border-radius: 0.125rem;
+  color: #444;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 1.85rem;
+  line-height: 1.85rem;
+  padding-left: 0.35rem;
+  width: 100%;
 }
 .good-new-info .edit-box .edit-size-info .txt {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
-    font-size: .575rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  font-size: 0.575rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .good-new-info .edit-box .edit-size-info .down {
-    text-align: center;
-    width: 1.375rem;
+  text-align: center;
+  width: 1.375rem;
 }
 .good-new-info .edit-box .edit-size-info .down .iconfont {
-    font-size: .75rem;
+  font-size: 0.75rem;
 }
 .good-new-info .info .count {
-    color: #999;
-    font-size: 1rem;
-    text-align: right;
-    width: 1.125rem;
-    align-items: center;
-    justify-content: center;
+  color: #999;
+  font-size: 1rem;
+  text-align: right;
+  width: 1.125rem;
+  align-items: center;
+  justify-content: center;
 }
 .good-new-info .info .price {
-    color: #d0253b;
-    font-size: .7rem;
+  color: #d0253b;
+  font-size: 0.7rem;
 }
 .good-new-info .info .tags {
-    line-height: .75rem;
-    text-align: right;
-    width: 100%;
+  line-height: 0.75rem;
+  text-align: right;
+  width: 100%;
 }
- .box {
-    background-color: #fff;
-    margin-top: .5rem;
+.box {
+  background-color: #fff;
+  margin-top: 0.5rem;
 }
 .all-gift-box .gift-item {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
 }
 .all-gift-box .gift-item .flag {
-    color: #444;
-    line-height: 2rem;
-    padding-right: .45rem;
-    text-align: right;
-    width: 2rem;
+  color: #444;
+  line-height: 2rem;
+  padding-right: 0.45rem;
+  text-align: right;
+  width: 2rem;
 }
 .all-gift-box .gift-item .flag .iconfont {
-    font-size: .8rem;
-    vertical-align: middle;
+  font-size: 0.8rem;
+  vertical-align: middle;
 }
 .all-gift-box .gift-item:last-child .content {
-    border: none;
+  border: none;
 }
-.all-gift-box .gift-item .content, .all-gift-box .gift-item .content .info {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
+.all-gift-box .gift-item .content,
+.all-gift-box .gift-item .content .info {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
 }
 .all-gift-box .gift-item .content {
-    border-bottom: 1px solid #f1f1f1;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    height: 2.2rem;
-    line-height: 2.2rem;
-    padding-right: .75rem;
-    width: 100%;
+  border-bottom: 1px solid #f1f1f1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 2.2rem;
+  line-height: 2.2rem;
+  padding-right: 0.75rem;
+  width: 100%;
 }
-.all-gift-box .gift-item .content, .all-gift-box .gift-item .content .info {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
+.all-gift-box .gift-item .content,
+.all-gift-box .gift-item .content .info {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
 }
 .all-gift-box .gift-item .content .opt {
-    text-align: right;
-    width: 3.475rem;
+  text-align: right;
+  width: 3.475rem;
 }
 .to-gift a {
-    color: #ff575c;
-    font-size: .575rem;
+  color: #ff575c;
+  font-size: 0.575rem;
 }
 .iconfont.to-arrow {
-    color: #e0e0e0;
-    margin-left: .275rem;
+  color: #e0e0e0;
+  margin-left: 0.275rem;
 }
 .shopping-cart-page .box {
-    background-color: #fff;
-    margin-top: .5rem;
+  background-color: #fff;
+  margin-top: 0.5rem;
 }
 .price-compute {
-    background-color: #fff;
-    border-top: 1px solid #e0e0e0;
-    font-size: .7rem;
-    margin-bottom: .5rem;
-    padding: .5rem;
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
+  font-size: 0.7rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
 }
 .cart-footer {
-    background-color: #fff;
-    bottom: 0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    height: 3rem;
-    left: 0;
-    position: fixed;
-    width: 100%;
-    z-index: 1;
+  background-color: #fff;
+  bottom: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 3rem;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 }
 .cart-footer .check-all {
-    padding-top: .5rem;
-    text-align: center;
-    width: 2.25rem;
+  padding-top: 0.5rem;
+  text-align: center;
+  width: 2.25rem;
 }
 .cart-footer .check-all .select {
-    display: block;
+  display: block;
 }
 .iconfont.chk {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 .cart-footer .check-all .edit {
-    display: none;
+  display: none;
 }
+.cart-footer .delete-all {
+  display: flex;
+  padding: 0.45rem;
+}
+.cart-footer .delete-all p {
+  border-radius: 0.125rem;
+  color: #fff;
+  display: block;
+  height: 2.2rem;
+  line-height: 2.2rem;
+  width: 4.25rem;
+  background-color: #d1021c;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
 .iconfont.chk {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 .cart-footer .opts.edit {
-    display: none;
+  display: none;
 }
 .cart-footer .opts {
-    -webkit-box-flex: 1;
-    -webkit-box-pack: end;
-    -webkit-flex: 1;
-    -webkit-justify-content: flex-end;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    flex: 1;
-    justify-content: flex-end;
-    padding: .45rem;
-    text-align: right;
+  -webkit-box-flex: 1;
+  -webkit-box-pack: end;
+  -webkit-flex: 1;
+  -webkit-justify-content: flex-end;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  padding: 0.45rem;
+  text-align: right;
 }
 .cart-footer .opts .btn.btn-gray {
-    background-color: #444;
+  background-color: #444;
 }
 .cart-footer .opts .btn {
-    border-radius: .125rem;
-    color: #fff;
-    display: block;
-    height: 2.2rem;
-    margin-left: .35rem;
-    margin-right: .35rem;
-    width: 4.25rem;
+  border-radius: 0.125rem;
+  color: #fff;
+  display: block;
+  height: 2.2rem;
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+  width: 4.25rem;
 }
 .cart-footer .opts .btn.btn-red {
-    background-color: #d1021c;
+  background-color: #d1021c;
 }
 .cart-footer .opts .btn {
-    border-radius: .125rem;
-    color: #fff;
-    display: block;
-    height: 2.2rem;
-    margin-left: .35rem;
-    margin-right: .35rem;
-    width: 4.25rem;
+  border-radius: 0.125rem;
+  color: #fff;
+  display: block;
+  height: 2.2rem;
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+  width: 4.25rem;
 }
 .cart-footer .opts.bill {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
 }
 .cart-footer .opts {
-    -webkit-box-flex: 1;
-    -webkit-box-pack: end;
-    -webkit-flex: 1;
-    -webkit-justify-content: flex-end;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    flex: 1;
-    justify-content: flex-end;
-    padding: .45rem;
-    text-align: right;
+  -webkit-box-flex: 1;
+  -webkit-box-pack: end;
+  -webkit-flex: 1;
+  -webkit-justify-content: flex-end;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  padding: 0.45rem;
+  text-align: right;
 }
 .cart-footer .opts .total {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
-    padding-top: .275rem;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  padding-top: 0.275rem;
 }
 .cart-footer .opts .btn.btn-red {
-    background-color: #d1021c;
+  background-color: #d1021c;
 }
 .cart-footer .opts .btn {
-    border-radius: .125rem;
-    color: #fff;
-    display: block;
-    height: 2.2rem;
-    margin-left: .35rem;
-    margin-right: .35rem;
-    width: 4.25rem;
+  border-radius: 0.125rem;
+  color: #fff;
+  display: block;
+  height: 2.2rem;
+  margin-left: 0.35rem;
+  margin-right: 0.35rem;
+  width: 4.25rem;
 }
 .cart-footer .opts .total .price {
-    color: #d0253b;
-    font-size: .8rem;
+  color: #d0253b;
+  font-size: 0.8rem;
 }
 .cart-footer .opts .total .intro {
-    color: #b6b6b6;
-    font-size: .575rem;
+  color: #b6b6b6;
+  font-size: 0.575rem;
 }
 /*原谅的颜色*/
-.green{
-  color:#58bc58;
+.green {
+  color: #58bc58;
 }
 </style>

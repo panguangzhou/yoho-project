@@ -46,8 +46,8 @@
 <input id="yohobuy" type="text" style="display:none;" />
         <button id="regBtn" class="reg-btn" type="button" @click="regCode">注册</button>
         <div class="protocol">
-            <span class="iconfont checkbox icon-dagou4" @click="agree=!agree" :class="{'blue':agree}"></span>
-            我已阅读并同意遵守<a href="/service/qaDetail?keyword=服务条款&amp;sonId=197" title="Yoho!Buy有货服务条款" target="_blank">Yoho!Buy有货服务条款</a>
+            <span class="iconfont checkbox icon-dagou" @click="agree=!agree" :class="{'blue':agree}"></span>
+            我已阅读并同意遵守<a title="Yoho!Buy有货服务条款" target="_blank">Yoho!Buy有货服务条款</a>
         </div>
     </form>
 </div>
@@ -130,7 +130,7 @@ export default {
               //验证正确，发起正则请求
               $.ajax({
                 url: "http://localhost:9995/reg",
-                type: "GET",
+                type: "POST",
                 data: {
                   username: _this.txt,
                   password: _this.paw
