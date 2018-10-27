@@ -171,3 +171,4 @@ function binb2b64(binarray) {
  }
  return str;
 }
+module.exports = hex_sha1;

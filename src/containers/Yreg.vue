@@ -55,6 +55,8 @@
     </div>
 </template>
 <script>
+import code  from '../lib/base64.js'
+var  codemi = code.hex_sha1;
 import $ from "jquery";
 export default {
   data() {
@@ -133,7 +135,7 @@ export default {
                 type: "POST",
                 data: {
                   username: _this.txt,
-                  password: _this.paw
+                  password: codemi(_this.paw)
                 },
                 success(data) {
                   if (data == "yes") {

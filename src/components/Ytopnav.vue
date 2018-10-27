@@ -46,9 +46,8 @@
         </div>
     </div>
 </div>
-    </div>
-    <ybottomTop></ybottomTop>
-  </div>
+<ybottomTop></ybottomTop>
+  </div></div>
 </template>
 
 <script>
@@ -69,14 +68,6 @@ export default {
     changeText(){
       this.txt=''
     },
-      //去登录界面
-    goLogin(){
-      this.$router.push('/Ylogin');
-  },
-  //去注册界面
-  goReg(){
-      this.$router.push('/Yreg')
-  },
   //去boys界面
     goBoys(){
         this.$router.push('/Yboys')
@@ -109,6 +100,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     margin-right: auto;
     position: relative;
     width: 100%;
+    overflow: hidden;
 }
 .index-page {
     margin: 0 auto;
@@ -136,6 +128,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     opacity: 1;
     transition: all .4s;
     width: 7.2rem;
+    overflow: hidden;
 }
 /*搜索框状态*/
 .index-page .index-header .index-logo.action {
@@ -278,21 +271,15 @@ input, textarea, select, button, meter, progress {
     width: 1rem;
     z-index: 1;
 }
-.iconfont {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: .4px;
-    font-family: iconfont,sans-serif!important;
-    font-size: .6rem;
-    font-style: normal;
-    text-decoration: none;
-}
 .index-page .index-container .index-channel {
     background-color: #000;
     color: #fff;
     min-height: 20rem;
     position: relative;
     text-align: center;
+}
+.index-page .index-container .index-channel img {
+    width: 100%;
 }
 img {
     border: 0;
@@ -326,70 +313,5 @@ img {
     right: .25rem;
     top: 0;
 }
-.iconfont {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: .4px;
-    font-family: iconfont,sans-serif!important;
-    font-size: .6rem;
-    font-style: normal;
-    text-decoration: none;
-}
  /* main */
- /* footer */
- .yoho-footer {
-    background-color: #fff;
-    display: none;
-    font-size: .6rem;
-    position: relative;
-    width: 100%;
-}
-.yoho-footer .op-row {
-    height: 3rem;
-    line-height: 3rem;
-    padding: 0 .75rem;
-}
-.yoho-footer .op-row a, .yoho-footer .op-row span {
-    display: inline-block;
-    overflow: hidden;
-}
-.yoho-footer .op-row .sep-line {
-    color: #e0e0e0;
-    margin: 0 .75rem;
-}
-
-.yoho-footer .op-row a, .yoho-footer .op-row span {
-    display: inline-block;
-    overflow: hidden;
-}
-.yoho-footer .float-top {
-    -webkit-background-size: cover;
-    background: url(//cdn.yoho.cn/yohobuywap-node/img/back-to-top.fcf6828d24.png) no-repeat;
-    background-size: cover;
-    border-radius: 50%;
-    bottom: auto;
-    display: none;
-    height: 2.2rem;
-    left: auto;
-    position: absolute;
-    right: 1.175rem;
-    top: 1.175rem;
-    width: 2.2rem;
-}
-.yoho-footer .copyright {
-    background-color: #eee;
-    color: #666;
-    font-size: .6rem;
-    height: 60PX;
-    line-height: 60PX;
-    text-align: center;
-}
-.yoho-footer .op-row .back-to-top {
-    position: absolute;
-    right: 1rem;
-}
-.yoho-footer .op-row .back-to-top .icon-huidingbu{
-  color:#000;
-}
- /* footer */
 </style>

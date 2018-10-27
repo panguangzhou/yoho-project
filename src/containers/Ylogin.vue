@@ -52,8 +52,8 @@ import common from '../lib/common.js'
 var cookie=common.Cookie;
 import yadvertising from "../components/Yadvertising.vue";
 import $ from "jquery";
-// import base  from '../lib/base64.js'
-// var code = base.hex_sha1;
+import code  from '../lib/base64.js'
+var  codemi = code.hex_sha1;
 export default {
   data() {
     return {
@@ -63,7 +63,6 @@ export default {
       pawbool: false,
       changeUrl: "https://m.yohobuy.com/passport/img-check.jpg?t=1",
       show: false,
-      use:[],
     };
   },
   components: {
@@ -87,7 +86,7 @@ export default {
     //验证用户名跟密码是否正确
     toggeLogin() {
       let _this = this;
-      // let password = bs.encode('_this.paw')
+      let paw = codemi(_this.paw)
       let reg = /^1(3|4|5|7|8)\d{9}$/;
       if ((_this.txt === "") & (_this.paw === "")) {
         alert("bick");
@@ -100,13 +99,12 @@ export default {
               type: "POST",
               data: {
                 username: _this.txt,
-                // password: code(_this.paw)
-                password:_this.paw
+                password: paw
               },
               success(data) {
                 if (data == "yes") {
-                  _this.use.push({username:_this.txt})
-                 cookie.set('use',JSON.stringify(_this.use),7)
+                 cookie.set('yohoUsername',_this.txt,7)
+                 cookie.set('yohoPassword',paw,7)
                  _this.$router.push('/Yboys')
                 } else {
                   alert("密码或手机输入不正确");

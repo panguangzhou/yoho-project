@@ -28,6 +28,7 @@
     <yboysLike></yboysLike>
     <!-- 页脚 -->
     <yfooter></yfooter>
+    <div class="float-top iconfont icon-huidingbu" @click="gotTop"></div>
     </div>
 </template>
 
@@ -68,6 +69,23 @@ export default {
     },
      methods:{
       //请求轮播图的图片
+      //滚动条的位置
+    showTime(){
+        $(window).scroll(function(){
+            if($(this).scrollTop()>500){
+                $('.float-top').show();
+            }else{
+                $('.float-top').hide();
+            }
+        })
+    },
+    //点击返回顶部
+    gotTop(){
+      $('html , body').animate({scrollTop: 0},'slow');
+    }
+  },
+  mounted(){
+      this.showTime();
   }
 }
 
@@ -105,5 +123,20 @@ img {
     display: block;
     margin: 0 auto;
     max-width: 100%;
+}
+/* 返回顶部小标签 */
+.float-top {
+    width:2.3rem;
+    height: 2.3rem;
+    position:fixed;
+    right:1rem;;
+    bottom:5rem;
+    background-color:rgba(0,0,0,.3);
+    border-radius: 50%;
+    color:#fff;
+    font-size:1rem;
+    text-align:center;
+    line-height:2.3rem;
+    z-index: 9999;
 }
 </style>

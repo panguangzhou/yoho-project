@@ -72,24 +72,25 @@ export default {
     // 找相似
     getxiangshi(){
 
-    }
+    },
+    //滑动到底部请求更多的数据渲染
+    
   },
   mounted() {
     this.toggle();
+    this.showTime();
     $(window).scroll(function(){
       var scrollTop = $(this).scrollTop();
       var scrollHeight = $(document).height();
       var windowHeight = $(this).height();
-      if (scrollTop + windowHeight == scrollHeight) {
-        $.ajax({
-          url: "http://localhost:9995/goodslist",
-          type: "GET",
-          data: {},
-          success(data) {
-          }
-        });
-      }
-    });
+      console.log(scrollTop)
+      console.log(scrollHeight)
+      console.log(windowHeight)
+      if (scrollTop + windowHeight >= scrollHeight) {
+    // 此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+       console.log('滚到条滚动到底部了')
+    }
+  })
   }
 };
 </script>

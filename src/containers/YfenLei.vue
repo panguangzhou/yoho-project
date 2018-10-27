@@ -28,393 +28,393 @@
                     <div class="sub-level-container">
                             <ul class="sub-level" v-show="tab1===0">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci5.html?title=上衣">
+                                        <a>
                                             全部上衣
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci45.html">
+                                        <a >
                                             T恤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci56.html">
+                                        <a>
                                             衬衫
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci48.html">
+                                        <a >
                                             POLO衫
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci53.html">
+                                        <a>
                                             背心
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci61.html">
+                                        <a>
                                             卫衣
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci209.html">
+                                        <a >
                                             马甲
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci72.html">
+                                        <a>
                                             夹克
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci207.html">
+                                        <a>
                                             防风外套
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1214.html">
+                                        <a >
                                             风衣
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci78.html">
+                                        <a >
                                             套装
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci66.html">
+                                        <a >
                                             西装
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci205.html">
+                                        <a >
                                             皮衣
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1206.html">
+                                        <a>
                                             大衣
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1216.html">
+                                        <a>
                                             毛衣
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1218.html">
+                                        <a>
                                             针织衫
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci211.html">
+                                        <a>
                                             棉衣
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci213.html">
+                                        <a>
                                             羽绒服
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===1">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci8.html?title=裤装">
+                                        <a >
                                             全部裤装
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci86.html">
+                                        <a>
                                             短裤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci90.html">
+                                        <a >
                                             休闲裤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci92.html">
+                                        <a >
                                             牛仔裤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci98.html">
+                                        <a >
                                             运动裤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci100.html">
+                                        <a >
                                             紧身裤/打底裤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci102.html">
+                                        <a >
                                             西裤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci268.html">
+                                        <a >
                                             连体裤
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===2">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci11.html?title=鞋靴">
+                                        <a >
                                             全部鞋靴
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1449.html">
+                                        <a >
                                             休闲/运动鞋
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci107.html">
+                                        <a >
                                             雪地靴
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci113.html">
+                                        <a >
                                             凉鞋/凉拖
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci123.html">
+                                        <a >
                                             时装鞋
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci119.html">
+                                        <a >
                                             靴子
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci126.html">
+                                        <a >
                                             保养护理
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===3">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci14.html?title=包类">
+                                        <a >
                                             全部包类
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci136.html">
+                                        <a >
                                             双肩包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci142.html">
+                                        <a >
                                             单肩包/手拎包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci147.html">
+                                        <a >
                                             钱包/卡包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci150.html">
+                                        <a >
                                             腰包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci156.html">
+                                        <a>
                                             邮差包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci160.html">
+                                        <a >
                                             电脑包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci163.html">
+                                        <a >
                                             储物包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci165.html">
+                                        <a >
                                             环保包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci168.html">
+                                        <a>
                                             包配
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci169.html">
+                                        <a h>
                                             tote包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci170.html">
+                                        <a>
                                             旅行包
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci171.html">
+                                        <a >
                                             旅行箱
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci610.html">
+                                        <a >
                                             手包/钥匙包
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===4">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci17.html?title=服配">
+                                        <a>
                                             全部服配
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci179.html">
+                                        <a >
                                             首饰
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci178.html">
+                                        <a >
                                             帽子
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci182.html">
+                                        <a >
                                             手表
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci177.html">
+                                        <a >
                                             太阳镜/眼镜
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci181.html">
+                                        <a >
                                             配饰
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci274.html">
+                                        <a >
                                             皮带
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci180.html">
+                                        <a >
                                             袜子
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1362.html">
+                                        <a >
                                             围巾/丝巾/披肩
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci187.html">
+                                        <a >
                                             手套
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===5">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1224.html?title=数码3C">
+                                        <a >
                                             全部数码3C
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1226.html">
+                                        <a>
                                             影音娱乐
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1228.html">
+                                        <a >
                                             手机配件
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1230.html">
+                                        <a >
                                             智能设备
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1232.html">
+                                        <a >
                                             电脑配件
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===6">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1268.html?title=玩具礼品">
+                                        <a >
                                             全部玩具礼品
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1270.html">
+                                        <a >
                                             火机烟具
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1272.html">
+                                        <a >
                                             益智/DIY
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1274.html">
+                                        <a>
                                             玩具模型
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1276.html">
+                                        <a>
                                             礼品
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===7">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci24.html?title=美妆/个护">
+                                        <a >
                                             全部美妆/个护
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci217.html">
+                                        <a >
                                             面部护理
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci219.html">
+                                        <a >
                                             身体护理
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci223.html">
+                                        <a >
                                             香水彩妆
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci193.html">
+                                        <a>
                                             口腔护理
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===8">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci19.html?title=内衣/家居服">
+                                        <a >
                                             全部内衣/家居服
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci189.html">
+                                        <a>
                                             内裤
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci190.html">
+                                        <a>
                                             家居服
                                         </a>
                                     </li>
@@ -425,93 +425,93 @@
                             </ul>
                             <ul class="sub-level" v-show="tab1===11">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1240.html?title=居家生活">
+                                        <a >
                                             全部居家生活
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1250.html">
+                                        <a >
                                             清洁用品
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1260.html">
+                                        <a >
                                             家装软饰
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1264.html">
+                                        <a >
                                             生活用品
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1266.html">
+                                        <a >
                                             家纺
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===12">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1294.html?title=厨具餐具">
+                                        <a >
                                             全部厨具餐具
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1298.html">
+                                        <a >
                                             厨房配件
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1300.html">
+                                        <a >
                                             餐具
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1302.html">
+                                        <a >
                                             茶具/咖啡具
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1304.html">
+                                        <a >
                                             水具酒具
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===13">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1286.html?title=文具杂志">
+                                        <a >
                                             全部文具杂志
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1288.html">
+                                        <a >
                                             学生文具
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1290.html">
+                                        <a >
                                             本册/便签
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1292.html">
+                                        <a >
                                             图书/杂志
                                         </a>
                                     </li>
                             </ul>
                             <ul class="sub-level" v-show="tab1===14">
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1278.html?title=生活电器">
+                                        <a >
                                             全部生活电器
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1280.html">
+                                        <a >
                                             家用电器
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="//m.yohobuy.com/list/gd1,3-ci1282.html">
+                                        <a >
                                             个护健康
                                         </a>
                                     </li>
@@ -586,6 +586,7 @@ export default {
     },
     toggle2(index){
       this.tab1 = index;
+      this.$router.push('/Ygoodslist')
   },
   toggle3(index){
       this.page=index;

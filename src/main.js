@@ -15,6 +15,7 @@ import yme from './containers/Yme.vue'
 import ysearch from './components/Ysearch.vue'
 import yxianqingye from './containers/Yxianqingye.vue'
 import yjiesuan from './containers/Yjiesuan.vue'
+import ygoodslist from './containers/Ygoodslist.vue'
 const routes = [
   {
     path:'/',
@@ -34,14 +35,6 @@ const routes = [
 },{
   path:'/YfenLei',
   component:yfenLei,
-  //路由嵌套
-  // children: [
-  //   {
-  //     path: 'Ysearch',
-  //     name: 'Ysearch',
-  //     component: ysearch
-  //   }
-  // ]
 },{
   path:'/Yguan',
   component:yguan
@@ -64,6 +57,10 @@ const routes = [
 },{
   path:'/Yjiesuan',
   component:yjiesuan
+},
+{
+  path:'/Ygoodslist',
+  component:ygoodslist 
 }
 ]
 const router = new VueRouter({

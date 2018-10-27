@@ -2,75 +2,250 @@ let mongodb = require('mongodb');
 let MongoClient = require('mongodb').MongoClient;
 let DB_CONN_STR = 'mongodb://localhost:27017';
 MongoClient.connect(DB_CONN_STR, function (err, db) {
-	let goodsname=[
+	let goodsname = [
 		{
-			bigImg:'https://img12.static.yhbimg.com/article/2018/10/22/14/028d3e0455290c133d97f67fd211834ed7.jpg?imageView2/2/w/640/h/640/q/60',
-			title:'软萌温暖的绒感外套，男生也值得拥有',
-			txt:'PUMA 携手嘻哈歌手BIG SEAN带来的重磅联名之作',
-			type:'搭配',
-			rd:967,
-			dz:34,
-			datas:[
-				{
-					minImg:'https://img13.static.yhbimg.com/goodsimg/2018/10/14/17/02d1e9d0b956eeff3be417824dcfdef1f6.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'M+RC NOIR 镭射金属斜挎包',
-					price:1499.00
-				},
-				{
-					minImg:'https://img11.static.yhbimg.com/goodsimg/2018/09/10/16/019de1c628cf6e39653a8534040e13626e.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'Timberland 科尔沁之#砂系列',
-					price:1790.00
-				},
-				{
-					minImg:'https://img13.static.yhbimg.com/goodsimg/2018/10/19/09/02180a20ca0f4302ca921644d509c80194.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'ABLE JEANS 男士自然立体锥形',
-					price:699.00
-				},
-				{
-					minImg:'https://img12.static.yhbimg.com/goodsimg/2018/10/16/17/0253651289b33678c122f8d9f481181ef3.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'PAVO 复古文艺圆框平光镜',
-					price:229.00
-				},
-			]
+			ids:'001',
+			price:695.00,
+			title:'Dickies 绣花微章羊绒卫衣',
+			hot:888,
+			imgUrl:'https://img12.static.yhbimg.com/goodsimg/2018/10/18/13/02e846613549af9fb868e1a4bbc5ac78ff.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
 		},
 		{
-			bigImg:'https://img13.static.yhbimg.com/article/2018/10/22/13/02a480c17a63f2f0192f6e5d2eadb10264.jpg?imageView2/2/w/640/h/640/q/60',
-			title:'这么冷的天，其实你可以选择摇粒',
-			txt:'军绿色的工装裤感觉大概是男孩子的心头好吧',
-			type:'搭配',
-			rd:2377,
-			dz:34,
-			datas:[
-				{
-					minImg:'https://img10.static.yhbimg.com/goodsimg/2018/09/07/18/014599aad368f4d0ac5b945bea2e339841.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'SLOW 银色‘真’字胸针',
-					price:102
-				},
-				{
-					minImg:'https://img13.static.yhbimg.com/goodsimg/2018/10/06/12/02ab522a39f388372436fd3d303fa774a4.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'adidas Originals TEMPER RUN',
-					price:1099
-				},
-				{
-					minImg:'https://img11.static.yhbimg.com/goodsimg/2018/10/14/17/010925b7c8b6a6acc71bef7290e5a56009.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'M+RC NOIR LOGO鸭舌帽',
-					price:729
-				},
-				{
-					minImg:'https://img11.static.yhbimg.com/goodsimg/2018/08/29/17/01afd65873be47b1c6e589182de0d02eab.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'TYAKASHA塔卡沙 芝麻系列',
-					price:474
-				},
-				{
-					minImg:'https://img12.static.yhbimg.com/goodsimg/2018/10/16/13/02cb92ceeba3b08bab15732d81f2847b17.jpg?imageView2/2/w/106/h/138/q/60',
-					title:'PAVO 复古个性飞机项链',
-					price:99
-				}
-			]
-		}
-]
+			ids:'002',
+			price:439.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:123,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/10/24/11/02e18f5c697249c1028aa17f0187e827c1.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'003',
+			price:695.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:234,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/10/24/11/02e0a0b17a59303ad4837f304e1aebf6ed.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'004',
+			price:520.00,
+			title:'VANS AP M BIG LOGO HOODIE II',
+			hot:14,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/09/17/13/025fa67906c906118719eab3bb09619ee0.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'005',
+			price:499.00,
+			title:'Dickies 撞色字母印花连帽卫衣',
+			hot:2525,
+			imgUrl:'https://img11.static.yhbimg.com/goodsimg/2018/10/16/09/01323358bab9ce362be5700781553f9480.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'006',
+			price:458.00,
+			title:'古由卡 Guuka 嘻哈撞色拼接加厚运动卫衣',
+			hot:5675,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/10/08/10/018a725df98932c9d05f488486d9add5d2.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'007',
+			price:436.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:193,
+			imgUrl:'https://img12.static.yhbimg.com/goodsimg/2018/08/24/15/025d7a79317036f0679af9378cb909b9d4.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'008',
+			price:887.00,
+			title:'AKOP',
+			hot:1233,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/10/11/15/0233ec95515835047ac89be04602ea3cde.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'009',
+			price:1000.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:1000,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/10/08/10/018a725df98932c9d05f488486d9add5d2.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'010',
+			price:12313.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:89,
+			imgUrl:'https://img12.static.yhbimg.com/goodsimg/2018/09/17/13/025fa67906c906118719eab3bb09619ee0.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'011',
+			price:1436.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:193,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/08/24/15/025d7a79317036f0679af9378cb909b9d4.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'012',
+			price:4436.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:19309,
+			imgUrl:'https://img12.static.yhbimg.com/goodsimg/2018/09/14/13/020bff5225c50f2303d389ebd27a646c15.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'013',
+			price:4424.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:234,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/09/30/13/017346215eb2675ea2f96a1f6fc76e2661.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'014',
+			price:808.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:193,
+			imgUrl:'https://img12.static.yhbimg.com/goodsimg/2018/09/14/13/02fdb850705138c4166a4cf36b1ea74c39.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'015',
+			price:567.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:464,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/09/30/19/01233ca0595e95d194485849e89ec11918.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'016',
+			price:8909.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:860,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/10/13/10/0163ad61d444e62a10d3cfd3153819fad2.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'017',
+			price:436.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:7686,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/10/11/15/0233ec95515835047ac89be04602ea3cde.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'018',
+			price:1535.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:766,
+			imgUrl:"https://img10.static.yhbimg.com/goodsimg/2018/10/08/10/018a725df98932c9d05f488486d9add5d2.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60",
+			theme:'卫衣',
+		},
+		{
+			ids:'019',
+			price:4326.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:787,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/10/16/09/01323358bab9ce362be5700781553f9480.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'020',
+			price:436.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:68,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/09/30/13/028570d10a9df4a69eb6a068003ac5882e.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'021',
+			price:234.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:707,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/08/24/15/025d7a79317036f0679af9378cb909b9d4.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'022',
+			price:558.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:558,
+			imgUrl:'https://img12.static.yhbimg.com/goodsimg/2018/10/24/11/02c576c881bf0644cc83d948a9475ef5af.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'023',
+			price:800.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:200,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/10/10/09/02b5b3553a928d459cdbf6a3001b596a90.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'024',
+			price:1797.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:8990,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/08/20/17/02760ae1aa21bcbd79b2115274f45a6cc9.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'025',
+			price:23979.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:555,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/10/12/09/0228ec28c8c9feba238ff6e24b33a4d962.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'026',
+			price:234.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:234,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/09/30/19/01233ca0595e95d194485849e89ec11918.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'027',
+			price:2344.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:2344,
+			imgUrl:'https://img12.static.yhbimg.com/goodsimg/2018/09/30/13/027f27a3416fbe2c5229bb7caed526d7ff.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'028',
+			price:2355.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:234,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/10/13/10/0163ad61d444e62a10d3cfd3153819fad2.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'029',
+			price:123123.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:193,
+			imgUrl:'https://img10.static.yhbimg.com/goodsimg/2018/10/11/17/01e30fc5ee0175aed76b5ecfbe0b342e23.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+		{
+			ids:'030',
+			price:300.00,
+			title:'AKOP. 经典拼色卫衣',
+			hot:193234,
+			imgUrl:'https://img13.static.yhbimg.com/goodsimg/2018/09/13/17/02e4ed14dd336494bc33628de73b7f98cd.jpg?imageMogr2/thumbnail/235x314/position/center/quality/60',
+			theme:'卫衣',
+		},
+	]
 	let dbo = db.db('yoho');
-	dbo.collection('guanshow').insert(goodsname,function (err, request) {
+	dbo.collection('goodsUpdate').insert(goodsname, function (err, request) {
 		if (err) {
 			console.log(err)
 		}
