@@ -191,9 +191,10 @@ app.post('/goodsUpdate', function (req, res) {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
+    let page = parseInt(req.body.page);
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         let dbo = db.db('yoho');
-        dbo.collection('goodsUpdate').find({}).toArray(function (err, request) {
+        dbo.collection('goodsUpdate').find({}).limit(10).skip(page).toArray(function (err, request) {
             if (err) {
                 console.log(err)
             }

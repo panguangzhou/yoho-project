@@ -120,9 +120,9 @@
             </div>
         </div>
 </div>
-        
-            </div>
+</div>
     </div>
+    <button @click="toggle">点击加载更多</button>
     </div>
 </template>
 
@@ -134,6 +134,7 @@ export default {
         return {
             bool:false,
             arrs:[],
+            page:0,
         }
     },
     components:{
@@ -158,9 +159,13 @@ export default {
             $.ajax({
                 url:'http://localhost:9995/goodsUpdate',
                 type:'post',
-                data:{},
+                data:{
+                    page:_this.page++
+                },
                 success(data){
+                    console.log(data)
                     _this.arrs=data;
+                    console.log(typeof _this.arrs)
                 }
             })
         },
