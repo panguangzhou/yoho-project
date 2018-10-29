@@ -27,7 +27,7 @@
                     </ul>
                     <div class="sub-level-container">
                             <ul class="sub-level" v-show="tab1===0">
-                                    <li>
+                                    <li @click="toggle4">
                                         <a>
                                             全部上衣
                                         </a>
@@ -586,11 +586,12 @@ export default {
     },
     toggle2(index){
       this.tab1 = index;
-      this.$router.push('/Ygoodslist')
   },
   toggle3(index){
       this.page=index;
-      console.log(666)
+  },
+  toggle4(){
+      this.$router.push('/Ygoodslist')
   }
   ,
   serach(){

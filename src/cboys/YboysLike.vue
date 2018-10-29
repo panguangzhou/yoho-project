@@ -23,7 +23,7 @@
                 <a v-text="p.title"></a>
             </div>
             <div class="price">
-                    <span class="sale-price" v-text="p.price"></span>
+                    <span class="sale-price">￥{{p.price}}</span>
                     <span class="market-price" v-text="p.daze"></span>
             </div>
             <a class="similar-btn iconfont"></a>
@@ -39,7 +39,8 @@ import $ from "jquery";
 export default {
   data() {
     return {
-      arrs: []
+      arrs: [],
+      page: 0
     };
   },
   methods: {
@@ -55,10 +56,10 @@ export default {
       });
     },
     //跳转到商品详情页
-    goxiangqingye(img,ids,price,title,nums,hot){
+    goxiangqingye(img, ids, price, title, nums, hot) {
       this.$router.push({
-        path:'/Yxianqingye',
-        query:{
+        path: "/Yxianqingye",
+        query: {
           img,
           ids,
           price,
@@ -66,31 +67,35 @@ export default {
           nums,
           hot
         }
-        }
-        )
-    },
-    // 找相似
-    getxiangshi(){
-
+      });
     },
     //滑动到底部请求更多的数据渲染
-    
+    getmove() {
+      let _this = this;
+      $(window).scroll(function() {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if (scrollTop + windowHeight >= scrollHeight) {
+          $.ajax({
+            url: "http://localhost:9995/goodsUpdate",
+            type: "post",
+            data: {
+              page: (_this.page += 10)
+            },
+            success(data) {
+              for (let i = 0; i < data.length; i++) {
+                _this.arrs.push(data[i]);
+              }
+            }
+          });
+        }
+      });
+    }
   },
   mounted() {
     this.toggle();
-    this.showTime();
-    $(window).scroll(function(){
-      var scrollTop = $(this).scrollTop();
-      var scrollHeight = $(document).height();
-      var windowHeight = $(this).height();
-      console.log(scrollTop)
-      console.log(scrollHeight)
-      console.log(windowHeight)
-      if (scrollTop + windowHeight >= scrollHeight) {
-    // 此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-       console.log('滚到条滚动到底部了')
-    }
-  })
+    this.getmove();
   }
 };
 </script>

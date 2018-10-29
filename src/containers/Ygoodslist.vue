@@ -54,7 +54,7 @@
         </li>
         <li class="new  buriedpoint" data-bp-id="shop_listnav_new_1">
             <a href="javascript:void(0);">
-                <span class="nav-txt">新品</span>
+                <span class="nav-txt" @click="sort">新品</span>
             </a>
         </li>
         <li class="popularity  buriedpoint" data-bp-id="shop_listnav_popularity_1">
@@ -98,7 +98,7 @@
     <div id="goods-container" class="goods-container">
         <div class="default-goods container clearfix">
                  
-        <div class="good-info " v-for="(p,index) in arrs" :key="index">
+        <div class="good-info " v-for="(p,index) in arr" :key="index">
             <div class="tag-container clearfix">
             </div>
             <div class="good-detail-img">
@@ -122,58 +122,92 @@
 </div>
 </div>
     </div>
-    <button @click="toggle">点击加载更多</button>
+    <!-- 页面底部 -->
+    <ybottomBox></ybottomBox>
     </div>
 </template>
 
 <script>
-import yadvertising from '../components/Yadvertising.vue';
+import yadvertising from "../components/Yadvertising.vue";
+import ybottomBox from '../components/YbottomBox.vue'
 import $ from "jquery";
 export default {
-    data(){
-        return {
-            bool:false,
-            arrs:[],
-            page:0,
+  data() {
+    return {
+      bool: false,
+      arr: [],
+      page: 0,
+      sortBool: false
+    };
+  },
+  components: {
+    yadvertising,
+    ybottomBox
+  },
+  methods: {
+    goboys() {
+      this.$router.push("/Yboys");
+    },
+    gofenlei() {
+      this.$router.push("/YfenLei");
+    },
+    gogouwu() {
+      this.$router.push("/YbuyCar");
+    },
+    gome() {
+      this.$router.push("/Yme");
+    },
+    //遍历生成数据
+    toggle() {
+      var _this = this;
+      $.ajax({
+        url: "http://localhost:9995/goodsUpdate",
+        type: "post",
+        data: {
+          page:_this.page+=10,
+        },
+        success(data) {
+          for (let i = 0; i < data.length; i++) {
+            _this.arr.push(data[i]);
+          }
         }
+      });
     },
-    components:{
-        yadvertising
+    //排序
+    sort() {
+      let _this = this;
+      _this.sortBool = !_this.sortBool;
+      $.ajax({
+        url: "http://localhost:9995/goodsUpdate-sort",
+        type: "post",
+        data: {
+          bool: _this.sortBool ? 1 : -1
+        },
+        success(data) {
+          for (let i = 0; i < data.length; i++) {
+            _this.arr.push(data[i]);
+          }
+        }
+      });
     },
-    methods:{
-        goboys(){
-            this.$router.push('/Yboys')
-        },
-        gofenlei(){
-            this.$router.push('/YfenLei')
-        },
-        gogouwu(){
-            this.$router.push('/YbuyCar')
-        },
-        gome(){
-            this.$router.push('/Yme')
-        },
-        //遍历生成数据
-        toggle(){
-            let _this = this;
-            $.ajax({
-                url:'http://localhost:9995/goodsUpdate',
-                type:'post',
-                data:{
-                    page:_this.page++
-                },
-                success(data){
-                    console.log(data)
-                    _this.arrs=data;
-                    console.log(typeof _this.arrs)
-                }
-            })
-        },
-    },
-    mounted(){
-        this.toggle();
+    //滑动到底部请求更多的数据渲染
+    getmove() {
+      let _this = this;
+      $(window).scroll(function() {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if (scrollTop + windowHeight >= scrollHeight) {
+          _this.toggle();
+        }
+      });
     }
-}
+  },
+  mounted() {
+    this.toggle();
+    this.getmove();
+  }
+};
 </script>
 
 <style scoped>
@@ -309,165 +343,168 @@ export default {
 }
 /* main */
 .good-list-page {
-    min-height: 22rem;
+  min-height: 22rem;
 }
 /* topList */
 .good-list-page .list-nav {
-    border-bottom: 1px solid #e6e6e6;
-    border-top: .05rem solid #fff;
-    position: relative;
+  border-bottom: 1px solid #e6e6e6;
+  border-top: 0.05rem solid #fff;
+  position: relative;
 }
-.good-list-page .list-nav>li {
-    float: left;
-    font-size: 14PX;
-    height: 33PX;
-    line-height: 33PX;
-    text-align: center;
-    width: 20%;
+.good-list-page .list-nav > li {
+  float: left;
+  font-size: 14px;
+  height: 33px;
+  line-height: 33px;
+  text-align: center;
+  width: 20%;
 }
-.good-list-page .list-nav .active>a {
-    color: #000;
+.good-list-page .list-nav .active > a {
+  color: #000;
 }
 .good-list-page .list-nav a {
-    box-sizing: border-box;
-    color: #999;
-    display: block;
-    height: 100%;
-    width: 100%;
+  box-sizing: border-box;
+  color: #999;
+  display: block;
+  height: 100%;
+  width: 100%;
 }
 .good-list-page .list-nav .nav-txt {
-    box-sizing: border-box;
-    display: inline-block;
-    height: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 100%;
 }
-.good-list-page .list-nav .active>a .iconfont.cur, .good-list-page .list-nav .active>a .iconfont.drop {
-    color: #000;
+.good-list-page .list-nav .active > a .iconfont.cur,
+.good-list-page .list-nav .active > a .iconfont.drop {
+  color: #000;
 }
 .good-list-page .list-nav .icon-daosanjiao {
-    font-size: 12PX;
+  font-size: 12px;
 }
 .good-list-page .list-nav .icon {
-    position: relative;
+  position: relative;
 }
 .good-list-page .list-nav .icon .up {
-    top: -11PX;
+  top: -11px;
 }
 .good-list-page .list-nav .icon i {
-    -webkit-transform: scale(.8);
-    font-weight: 700;
-    position: absolute;
-    transform: scale(.8);
+  -webkit-transform: scale(0.8);
+  font-weight: 700;
+  position: absolute;
+  transform: scale(0.8);
 }
 .good-list-page .list-nav .icon i {
-    -webkit-transform: scale(.8);
-    font-weight: 700;
-    position: absolute;
-    transform: scale(.8);
+  -webkit-transform: scale(0.8);
+  font-weight: 700;
+  position: absolute;
+  transform: scale(0.8);
 }
 .good-list-page .list-nav .icon .down {
-    top: -4PX;
+  top: -4px;
 }
 /* 主要商品内容区*/
 .good-list-page .goods-container {
-    min-height: auto!important;
-    padding-left: .375rem;
-    padding-top: .2rem;
-    position: relative;
+  min-height: auto !important;
+  padding-left: 0.375rem;
+  padding-top: 0.2rem;
+  position: relative;
 }
 .good-info {
-    float: left;
-    height: 13.5rem;
-    margin: .25rem .375rem 1rem;
-    width: 45%;
-    box-sizing: border-box;
+  float: left;
+  height: 13.5rem;
+  margin: 0.25rem 0.375rem 1rem;
+  width: 45%;
+  box-sizing: border-box;
 }
 .good-info .tag-container {
-    height: .7rem;
-    overflow: hidden;
-    width: 100%;
+  height: 0.7rem;
+  overflow: hidden;
+  width: 100%;
 }
 .good-detail-img {
-    height: 9.2rem;
-    position: relative;
+  height: 9.2rem;
+  position: relative;
 }
 .good-detail-img img {
-    display: block;
-    height: 9.2rem;
-    width: 100%;
+  display: block;
+  height: 9.2rem;
+  width: 100%;
 }
 .good-detail-img .similar-c {
-    bottom: 0;
-    display: none;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
+  bottom: 0;
+  display: none;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
 }
 .good-detail-img .similar-c .bg {
-    background-color: #000;
-    height: 100%;
-    opacity: .6;
-    width: 100%;
+  background-color: #000;
+  height: 100%;
+  opacity: 0.6;
+  width: 100%;
 }
 .good-detail-img .similar-c a {
-    background-color: #d0021b;
-    border-radius: 50%;
-    color: #fff;
-    display: block;
-    font-size: .7rem;
-    height: 3rem;
-    left: 50%;
-    line-height: 3rem;
-    margin-left: -1.5rem;
-    margin-top: -1.5rem;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    width: 3rem;
+  background-color: #d0021b;
+  border-radius: 50%;
+  color: #fff;
+  display: block;
+  font-size: 0.7rem;
+  height: 3rem;
+  left: 50%;
+  line-height: 3rem;
+  margin-left: -1.5rem;
+  margin-top: -1.5rem;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 3rem;
 }
 .good-detail-text {
-    position: relative;
+  position: relative;
 }
-.good-detail-text .name a, .good-detail-text .price {
-    -webkit-transform: scale(.9);
-    font-size: 12PX;
-    transform: scale(.9);
+.good-detail-text .name a,
+.good-detail-text .price {
+  -webkit-transform: scale(0.9);
+  font-size: 12px;
+  transform: scale(0.9);
 }
 .good-detail-text .name a {
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    color: #444;
-    display: -webkit-box;
-    height: 1.5rem;
-    line-height: .75rem;
-    margin: .375rem 0 .25rem;
-    min-height: 1.25rem;
-    overflow: hidden;
-    padding: .125rem 0;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: #444;
+  display: -webkit-box;
+  height: 1.5rem;
+  line-height: 0.75rem;
+  margin: 0.375rem 0 0.25rem;
+  min-height: 1.25rem;
+  overflow: hidden;
+  padding: 0.125rem 0;
 }
 .good-detail-text .price {
-    line-height: .55rem;
-    white-space: nowrap;
+  line-height: 0.55rem;
+  white-space: nowrap;
 }
-.good-detail-text .name a, .good-detail-text .price {
-    -webkit-transform: scale(.9);
-    font-size: 12PX;
-    transform: scale(.9);
+.good-detail-text .name a,
+.good-detail-text .price {
+  -webkit-transform: scale(0.9);
+  font-size: 12px;
+  transform: scale(0.9);
 }
 .good-detail-text .price .sale-price.no-price {
-    color: #000;
+  color: #000;
 }
 .good-detail-text .similar-btn {
-    bottom: -.5rem;
-    color: #b0b0b0;
-    font-weight: 700;
-    height: 2rem;
-    line-height: 2.5rem;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    width: 1.25rem;
+  bottom: -0.5rem;
+  color: #b0b0b0;
+  font-weight: 700;
+  height: 2rem;
+  line-height: 2.5rem;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  width: 1.25rem;
 }
 </style>

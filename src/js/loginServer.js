@@ -23,7 +23,6 @@ app.post('/login', function (req, res) {
             if (err) {
                 console.log(err)
             }
-            console.log(request)
             if (request.length !== 0) {
                 res.send('yes')
             } else {
@@ -174,7 +173,6 @@ app.post('/checkLogin',function(req,res){
             if (err) {
                 console.log(err)
             }
-            console.log(request.length)
             if(request.length>0){
                 res.send('yes')
             }else{
@@ -191,8 +189,8 @@ app.post('/goodsUpdate', function (req, res) {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    let page = parseInt(req.body.page);
     MongoClient.connect(DB_CONN_STR, function (err, db) {
+        let page = parseInt(req.body.page);
         let dbo = db.db('yoho');
         dbo.collection('goodsUpdate').find({}).limit(10).skip(page).toArray(function (err, request) {
             if (err) {
@@ -204,4 +202,17 @@ app.post('/goodsUpdate', function (req, res) {
         })
     })
 })
-    app.listen(9995);
+//商品排序
+app.post('/goodsUpdate-sort', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    let bool = req.body.bool
+    console.log(bool)
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        let dbo = db.db('yoho');
+        dbo.collection('goodsUpdate').find({}).sort({'price':bool})
+    })
+})
+ app.listen(9995);

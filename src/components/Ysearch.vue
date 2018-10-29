@@ -152,7 +152,7 @@
         <span @click="goReg">注册</span>
         <span class="back-to-top">
             <!-- 效果不好 -->
-          <a href=''>
+          <a @click="gotTop">
             回到顶部
             <i class="iconfont icon-huidingbu"></i>
           </a>
@@ -214,6 +214,10 @@ export default {
                 }
             }
         })
+    },
+    //点击返回顶部
+    gotTop(){
+      $('html , body').animate({scrollTop: 0},'slow');
     }
     },
 }

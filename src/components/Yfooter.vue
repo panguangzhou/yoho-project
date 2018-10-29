@@ -1,9 +1,9 @@
 <template>
     <div class="footer-tab">
-    <a class="tab-item current " v-for="(p,index) in arrs" :key="index" @click="toggle(index)" :class="{'active':page ===index}">
+    <div class="tab-item current" :class="{'active':page===index}" v-for="(p,index) in arrs" :key="index" @click="toggle(index)">
         <p class="iconfont" :class="p.iconImg"></p>
         <p class="tab-name" v-text="p.name"></p>
-    </a>
+    </div>
 </div>
 </template>
 
@@ -16,35 +16,29 @@ export default {
                 {
                     name:'首页',
                     iconImg:'icon-yemian-copy',
-                    bool:true
                 },
                 {
                     name:'分类',
                     iconImg:'icon-caidanlan',
-                    bool:false
                 },
                 {
                     name:'逛',
                     iconImg:'icon-huojian',
-                    bool:false
                 },
                 {
                     name:'购物车',
                     iconImg:'icon-buy-car',
-                    bool:false
                 },
                 {
                     name:'我的',
                     iconImg:'icon-wodedangxuan',
-                    bool:false
                 }
             ]
         }
     },
     methods:{
         toggle(index){
-            this.page =index;
-           //切换页面
+            this.page=index
             switch(index){
                 case 0:
                 this.$router.push('/Yboys');
@@ -60,7 +54,7 @@ export default {
                 break;
                 case 4:
                 this.$router.push('/Yme')
-            }
+            };
         }
     } 
 }
@@ -75,8 +69,10 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     padding: 0;
     vertical-align: baseline;
 }
+.active{
+    /* color:#f60; */
+}
 .footer-tab {
-    background: #fff;
     border-top: 1px solid #b0b0b0;
     bottom: 0;
     left: 0;
@@ -86,15 +82,16 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     position:fixed;
     width: 100%;
     z-index:2;
+    background:#ccc;
 }
 .footer-tab .tab-item{
     display: block;
     float:left;
     width:20%;
-    height:25px;
+    height:3rem;
     line-height:25px;
     padding-top:2px;
-    color:#888;
+    overflow:hidden;
 }
 .footer-tab .tab-item .iconfont{
     text-align: center;
@@ -106,8 +103,5 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
     line-height: 1;
     margin-top: .25rem;
     transform: scale(.9)
-}
-.active{
-    color:#000;
 }
 </style>
