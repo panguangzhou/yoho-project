@@ -39,7 +39,7 @@ app.post('/reg', function (req, res) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     var username = req.body.username;
-    var password =code(req.body.password);
+    var password = code(req.body.password);
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         let arr = [{ username, password }];
         var dbo = db.db('yoho');
@@ -142,7 +142,7 @@ app.get('/goodslist', function (req, res) {
     })
 })
 //逛的数据
-app.get('/goodshow',function(req,res){
+app.get('/goodshow', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -160,7 +160,7 @@ app.get('/goodshow',function(req,res){
     })
 })
 //初始化验证密码和登录状态
-app.post('/checkLogin',function(req,res){
+app.post('/checkLogin', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -169,13 +169,13 @@ app.post('/checkLogin',function(req,res){
     let password = code(req.body.password);
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         let dbo = db.db('yoho');
-        dbo.collection('admin').find({username,password}).toArray(function (err, request) {
+        dbo.collection('admin').find({ username, password }).toArray(function (err, request) {
             if (err) {
                 console.log(err)
             }
-            if(request.length>0){
+            if (request.length > 0) {
                 res.send('yes')
-            }else{
+            } else {
                 res.send('no')
             }
             db.close();
@@ -209,10 +209,52 @@ app.post('/goodsUpdate-sort', function (req, res) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     let bool = req.body.bool
+    if (bool == 'true') {
+        bool = 1
+    } else{
+        bool= -1
+    }
+    let item = req.body.item;
     console.log(bool)
     MongoClient.connect(DB_CONN_STR, function (err, db) {
         let dbo = db.db('yoho');
-        dbo.collection('goodsUpdate').find({}).sort({'price':bool})
+        if (item == 'ids') {
+            dbo.collection('goodsUpdate').find({}).sort({ 'ids': bool }).toArray(function (err, request) {
+                if (err) {
+                    console.log(err)
+                }
+                res.send(request)
+                db.close();
+            })
+        }
+        if (item == 'hot') {
+            dbo.collection('goodsUpdate').find({}).sort({ 'hot': bool }).toArray(function (err, request) {
+                if (err) {
+                    console.log(err)
+                }
+                res.send(request)
+                db.close();
+            })
+        }
+        if (item == 'price') {
+            dbo.collection('goodsUpdate').find({}).sort({ 'price': bool }).toArray(function (err, request) {
+                if (err) {
+                    console.log(err)
+                }
+                res.send(request)
+                db.close();
+            })
+        }
+        if (item == 'nums') {
+            dbo.collection('goodsUpdate').find({}).sort({ 'nums': bool }).toArray(function (err, request) {
+                if (err) {
+                    console.log(err)
+                }
+                res.send(request)
+                db.close();
+            })
+        }
+
     })
 })
- app.listen(9995);
+app.listen(9995);

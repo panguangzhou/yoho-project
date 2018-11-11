@@ -45,25 +45,24 @@
     <ul id="list-nav" class="list-nav clearfix">
         <li class="default 
         active
-        
          buriedpoint first-li-more" data-bp-id="shop_listnav_default_1">
-            <a href="javascript:void(0);">
+            <a href="javascript:void(0);" @click="sort('ids')">
                 <span class="nav-txt">默认</span>
                 <span class="iconfont icon-daosanjiao"></span>
             </a>
         </li>
         <li class="new  buriedpoint" data-bp-id="shop_listnav_new_1">
-            <a href="javascript:void(0);">
-                <span class="nav-txt" @click="sort">新品</span>
+            <a href="javascript:void(0);"  @click="sort('nums')">
+                <span class="nav-txt">新品</span>
             </a>
         </li>
         <li class="popularity  buriedpoint" data-bp-id="shop_listnav_popularity_1">
-            <a href="javascript:void(0);">
+            <a href="javascript:void(0);" @click="sort('hot')">
                 <span class="nav-txt">人气</span>
             </a>
         </li>
         <li class="price  buriedpoint" data-bp-id="shop_listnav_price_1">
-            <a href="javascript:void(0);">
+            <a href="javascript:void(0);" @click="sort('price')">
                 <span class="nav-txt">价格</span>
                 <span class="icon">
                     <i class="iconfont up cur icon-arrow-top"></i>
@@ -129,7 +128,7 @@
 
 <script>
 import yadvertising from "../components/Yadvertising.vue";
-import ybottomBox from '../components/YbottomBox.vue'
+import ybottomBox from "../components/YbottomBox.vue";
 import $ from "jquery";
 export default {
   data() {
@@ -164,7 +163,7 @@ export default {
         url: "http://localhost:9995/goodsUpdate",
         type: "post",
         data: {
-          page:_this.page+=10,
+          page: (_this.page += 10)
         },
         success(data) {
           for (let i = 0; i < data.length; i++) {
@@ -174,19 +173,21 @@ export default {
       });
     },
     //排序
-    sort() {
+    sort(box) {
+      this.data = "";
       let _this = this;
-      _this.sortBool = !_this.sortBool;
+      this.sortBool=!this.sortBool;
+      let bool = this.sortBool;
+      let item = box;
       $.ajax({
         url: "http://localhost:9995/goodsUpdate-sort",
         type: "post",
         data: {
-          bool: _this.sortBool ? 1 : -1
+          bool,
+          item
         },
         success(data) {
-          for (let i = 0; i < data.length; i++) {
-            _this.arr.push(data[i]);
-          }
+          _this.arr = data;
         }
       });
     },

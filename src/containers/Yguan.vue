@@ -5,16 +5,11 @@
         <div class="nav-scroll">
             <ul id="guang-nav" class="guang-nav">
                     <li class="guang-nav-item" data-type="p.type" v-for="(p,index) in arrs" :key="index" @click="toggle(index)">
-                        <span v-text="p.name"></span>
+                        <span v-text="p.name" :class="{'focus':page==index}"></span>
                     </li>
             </ul>
         </div>
-        <yzuixin v-if="page===0"></yzuixin>
-        <ydapei v-if="page===1"></ydapei>
-        <ytoutiao v-if="page===2"></ytoutiao>
-        <yshangxin v-if="page===3"></yshangxin>
-        <yshipin v-if="page===4"></yshipin>
-        <yzixun v-if="page===5"></yzixun>
+        <router-view/>
         <!-- 页脚导航 -->
         <yfooter></yfooter>
     </div>
@@ -23,22 +18,10 @@
 <script>
 import advertising from '../components/Yadvertising.vue'
 import yfooter from '../components/Yfooter.vue'
-import yzuixin from '../cguan/Yzuixin.vue'
-import ytoutiao from '../cguan/Ytoutiao.vue'
-import yshangxin from '../cguan/Yshangxin.vue'
-import yshipin from '../cguan/Yshipin.vue'
-import yzixun from '../cguan/Yzixun.vue'
-import ydapei from '../cguan/Ydapei.vue'
 export default {
     components:{
         advertising,
         yfooter,
-        yzuixin,
-        ytoutiao,
-        yshangxin,
-        yshipin,
-        yzixun,
-        ydapei
     },
     data(){
         return {
@@ -74,7 +57,33 @@ export default {
     methods:{
         toggle(index){
             this.page =index;
+            switch(index){
+                case 0:
+                this.page=0;
+                this.$router.push('/Yguan/yzuixin');
+                break;
+                case 1:
+                this.page=1;
+                this.$router.push('/Yguan/ydapei');
+                break;
+                case 2:
+                this.page=2;
+                this.$router.push('/Yguan/ytoutiao')
+                break;
+                case 3:
+                this.$router.push('/Yguan/yshangxin')
+                break;
+                case 4:
+                this.$router.push('/Yguan/yshipin');
+                break;
+                case 5:
+                this.$router.push('/Yguan/yzixun');
+                break;
+            }
         }
+    },
+    mounted(){
+        // this.toggle();
     }
 }
 </script>

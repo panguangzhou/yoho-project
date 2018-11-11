@@ -318,8 +318,8 @@ export default {
     lijigoumai() {
       if (this.page !== "") {
         //判断是否登录
-        let len = cookie.get("use");
-        if (len.length == 0) {
+        let len = cookie.get("yohoUsername");
+        if (len==null) {
           this.$router.push("/Ylogin");
         } else {
           this.$router.push({
@@ -339,7 +339,7 @@ export default {
     // 加入购物车
     jiarugouwuche() {
       if (this.page !== "") {
-        let len = cookie.get("use");
+        let len = cookie.get("yohoUsername");
         if (len.length == 0) {
           this.$router.push("/Ylogin");
         } else {

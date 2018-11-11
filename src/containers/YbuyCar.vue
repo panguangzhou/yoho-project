@@ -321,7 +321,7 @@ export default {
     },
     //判断是否是登录状态
     loginStates() {
-      let len = cookie.get("use");
+      let len = cookie.get("yohoUsername");
       if (len.length == 0) {
         this.loginState = true;
       } else {
