@@ -164,7 +164,7 @@
         <div class="iconfont icon-hezi"></div>
         <div class="tip">品牌店铺</div>
     </a>
-    <a href="javascript:;" class="new-foot-ico fav like-btn-c">
+    <a href="javascript:;" class="new-foot-ico fav like-btn-c" @click="shouchang">
         <div id="likeBtn" class="favorite iconfont icon-dagou"></div>
         <div class="tip opa">收藏</div>
     </a>
@@ -232,6 +232,7 @@
 <script>
 import common from "../lib/common.js";
 var cookie = common.Cookie;
+import $ from 'jquery';
 import yadvertising from "../components/Yadvertising.vue";
 export default {
   data() {
@@ -284,6 +285,25 @@ export default {
     },
     gobuyCar() {
       this.$router.push("/YbuyCar");
+    },
+    shouchang(){
+      let user = cookie.get('yohoUsername');
+      let self = this;
+      if(user!==''){
+        $.ajax({
+          url:'http://localhost:9995/shouchang',
+          type:'POST',
+          data:{
+            ids:self.ids,
+            user
+          },
+          success(data){
+            console.log(data)
+          }
+        })
+      }else{
+        this.$router.push('/Ylogin')
+      }
     },
     // 计算购物车里面的商品数量
     goSpanNum() {

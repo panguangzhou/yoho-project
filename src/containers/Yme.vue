@@ -95,7 +95,7 @@
         </div>
         <div class="main eps">礼品卡功能上线，需要采购请联系有货客服</div>
     </div>
-    <div class="list s-list">
+    <div class="list s-list" @click="gowodedingdan">
         <div class="list-item">
             <div class="body">
                 <div class="main eps">我的订单</div>
@@ -329,6 +329,10 @@ export default {
     //点击返回顶部
     gotTop(){
       $('html , body').animate({scrollTop: 0},'slow');
+    },
+    //点击跳转到我的订单页面
+    gowodedingdan(){
+      this.$router.push('/Ywodedingdan');
     }
   },
   mounted() {

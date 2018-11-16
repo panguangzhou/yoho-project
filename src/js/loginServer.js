@@ -211,8 +211,8 @@ app.post('/goodsUpdate-sort', function (req, res) {
     let bool = req.body.bool
     if (bool == 'true') {
         bool = 1
-    } else{
-        bool= -1
+    } else {
+        bool = -1
     }
     let item = req.body.item;
     console.log(bool)
@@ -255,6 +255,43 @@ app.post('/goodsUpdate-sort', function (req, res) {
             })
         }
 
+    })
+})
+app.post('/shouchang', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    //检测数据库有没有相同的用户名
+    let ids = req.body.ids;
+    let user = req.body.user;
+    let idsArr=[];
+    idsArr.push(ids);
+    console.log(idsArr)
+    let username ={user,idsArr}
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+        let dbo = db.db('yoho');
+        dbo.collection('UserFavorites').find({user}).toArray(function (err, request) {
+            if (err) {
+                console.log(err)
+            }
+            if(request==''){
+                dbo.collection('UserFavorites').insert(username,idsArr, function (error, requests){
+                    if(error){
+                        console.log(error)
+                    }
+                    console.log(requests)
+                })
+            }else{
+                dbo.collection('UserFavorites').find({user}).toArray(function (error, requests){
+                    if(error){
+                        console.log(error)
+                    }
+                   console.log(requests[0].idsArr)
+                })
+            }
+            db.close();
+        })
     })
 })
 app.listen(9995);

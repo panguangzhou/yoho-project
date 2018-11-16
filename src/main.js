@@ -16,6 +16,7 @@ import ysearch from './components/Ysearch.vue'
 import yxianqingye from './containers/Yxianqingye.vue'
 import yjiesuan from './containers/Yjiesuan.vue'
 import ygoodslist from './containers/Ygoodslist.vue'
+import ywodedingdan from './containers/Ywodedingdan.vue'
 //Ygaun的二级嵌套
 import yzuixin from './cguan/Yzuixin.vue'
 import ydapei from './cguan/Ydapei.vue'
@@ -84,7 +85,6 @@ const routes = [
       name:'yzixun',
       component:yzixun
     },
-    
   ]
 },
 {
@@ -109,6 +109,9 @@ const routes = [
 {
   path:'/Ygoodslist',
   component:ygoodslist 
+},{
+  path:'/Ywodedingdan',
+  component:ywodedingdan
 }
 ]
 const router = new VueRouter({
